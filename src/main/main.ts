@@ -1,86 +1,102 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off */
-
-/**
- * This module executes inside of electron's main process. You can start
- * electron renderer process from here and communicate with the other processes
- * through IPC.
- *
- * When running `npm run build` or `npm run build:main`, this file is compiled to
- * `./src/main.js` using webpack. This gives us some performance wins.
- */
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-const exec = require('child_process').exec;
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 var sudo = require('sudo-prompt');
 var options = {
   name: 'Electron',
   icns: '/Applications/Electron.app/Contents/Resources/Electron.icns', // (optional),
 };
+const sudoExec = util.promisify(sudo.exec);
 
-ipcMain.on('run', async (event, data) => {
-  const command = data[0];
-  if (command === 'setup') {
-    // options['env']['USERHOME'] = 'lmao';
-    sudo.exec(
-      `HOME=${process.env.HOME} ; bash ${path.join(
-        __dirname,
-        '../scripts/runner.sh'
-      )} setup`,
-      options,
-      function (error: string, stdout: string, stderr: string) {
-        if (stdout) console.log(stdout);
-        if (stderr) console.log(stderr);
-      }
+ipcMain.handle('custom', async (event, data) => {
+  const container = data[0];
+  const command = data[1];
+  if (command === 'containers') {
+    const { stdout, stderr } = await exec(
+      "docker ps -a --format '{{.Names}}' --filter ancestor=ghcr.io/sentinel-official/dvpn-node:latest"
     );
-  } else if (command === 'init') {
-    const mnemonic = data[1];
-    const passphrase = data[2];
-    exec(
-      `bash ${path.join(
-        __dirname,
-        '../scripts/runner.sh'
-      )} init config ; bash ${path.join(
-        __dirname,
-        '../scripts/runner.sh'
-      )} init wireguard ; printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | bash ${path.join(
-        __dirname,
-        '../scripts/runner.sh'
-      )} init keys`,
-      options,
-      function (error: string, stdout: string, stderr: string) {
-        if (stdout) console.log(stdout);
-        if (stderr) console.log(stderr);
-      }
-    );
-  } else if (command === 'start') {
-    const passphrase = data[1];
-    exec(
-      `echo ${passphrase} | bash ${path.join(
-        __dirname,
-        '../scripts/runner.sh'
-      )} ${command} < ${path.join(__dirname, '../scripts/keyphrase.txt')}`,
-      options,
-      function (error: string, stdout: string, stderr: string) {
-        if (stdout) console.log(stdout);
-        if (stderr) console.log(stderr);
-      }
-    );
+    return stdout;
   } else {
-    exec(
-      `bash ${path.join(
-        __dirname,
-        '../scripts/runner.sh'
-      )} ${command} < ${path.join(__dirname, '../scripts/keyphrase.txt')}`,
-      options,
-      function (error: string, stdout: string, stderr: string) {
-        if (stdout) console.log(stdout);
-        if (stderr) console.log(stderr);
-      }
+    const { stdout, stderr } = await exec(
+      `docker ps --all --filter name="${container}" --quiet`
     );
+    if (stdout === '') return 'Stopped';
+    const output = await exec(
+      `docker container inspect --format "{{ .State.Running }}" "${container}"`
+    );
+    if (output.stdout === 'true\n') return 'Running';
+    return 'Stopped';
+  }
+});
+
+ipcMain.handle('run', async (event, data) => {
+  try {
+    const container = data[0];
+    const command = data[1];
+    if (command === 'setup') {
+      const output = await sudoExec(
+        `HOME=${
+          process.env.HOME
+        } ; CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} setup`,
+        options
+      );
+      return output;
+    } else if (command === 'init') {
+      const mnemonic = data[2];
+      const passphrase = data[3];
+      const { stdout, stderr } = await exec(
+        `CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} init config ; CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} init wireguard ; printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} init keys`
+      );
+      return stdout;
+    } else if (command === 'start') {
+      const passphrase = data[2];
+      const { stdout, stderr } = await exec(
+        `CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} ${command} ; echo ${passphrase} | socat EXEC:"docker attach ${container}",pty STDIN`
+      );
+      if (stdout) return stdout;
+      if (stderr) return stderr;
+    } else if (command === 'stop') {
+      const { stdout, stderr } = await exec(
+        ` CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} ${command}`
+      );
+      return stdout;
+    } else {
+      const { stdout, stderr } = await exec(
+        `CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} ${command}`
+      );
+      return stdout;
+    }
+  } catch (err: any) {
+    console.log(err);
+    if (err.stdout) return err.stdout;
+    if (err.stderr) return err.stderr;
   }
 });
 
@@ -105,8 +121,9 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-const isDebug =
-  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+// const isDebug =
+//   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDebug = false;
 
 if (isDebug) {
   require('electron-debug')();

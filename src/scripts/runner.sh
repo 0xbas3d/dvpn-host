@@ -2,8 +2,7 @@
 
 set -Eeou pipefail
 
-CONTAINER_NAME=sentinelnode
-NODE_DIR="${HOME}/.sentinelnode"
+NODE_DIR="${HOME}/.${CONTAINER_NAME}"
 NODE_IMAGE=ghcr.io/sentinel-official/dvpn-node:latest
 
 function stop {
@@ -362,59 +361,65 @@ function cmd_start {
     echo "  -d, --detach    Start the node container detached"
   }
 
-  local detach=0
-  local rm=1
+  id=$(docker ps --all --filter name="${CONTAINER_NAME}" --quiet)
+  if [[ -n "${id}" ]]; then
+    cmd_restart
+  else
+    local detach=1
+    local rm=0
 
-  [[ "${#}" -gt 0 ]] && {
-    case "${1}" in
-      "-d" | "--detach") detach=1 && rm=0 ;;
-      "help") cmd_help && return 0 ;;
-      *) echo "Error: invalid command or option \"${1}\"" && return 1 ;;
-    esac
-  }
+    [[ "${#}" -gt 0 ]] && {
+      case "${1}" in
+        "-d" | "--detach") detach=1 && rm=0 ;;
+        "help") cmd_help && return 0 ;;
+        *) echo "Error: invalid command or option \"${1}\"" && return 1 ;;
+      esac
+    }
 
-  local node_api_port=
-  local node_type=
+    local node_api_port=
+    local node_type=
 
-  node_api_port=$(awk -F '[=":]' '{gsub(/ /,"")} /\[node\]/{f=1} f && /listen_on/{print $4;exit}' "${NODE_DIR}/config.toml")
-  node_type=$(awk -F '[="]' '{gsub(/ /,"")} /\[node\]/{f=1} f && /type/{print $3;exit}' "${NODE_DIR}/config.toml")
+    node_api_port=$(awk -F '[=":]' '{gsub(/ /,"")} /\[node\]/{f=1} f && /listen_on/{print $4;exit}' "${NODE_DIR}/config.toml")
+    node_type=$(awk -F '[="]' '{gsub(/ /,"")} /\[node\]/{f=1} f && /type/{print $3;exit}' "${NODE_DIR}/config.toml")
 
-  if [[ "${node_type}" == "v2ray" ]]; then
-    vmess_port=$(awk -F '=' '{gsub(/ /,"")} /\[vmess\]/{f=1} f && /listen_port/{print $2;exit}' "${NODE_DIR}/v2ray.toml")
-    docker run \
-      --detach="${detach}" \
-      --interactive \
-      --name="${CONTAINER_NAME}" \
-      --rm="${rm}" \
-      --volume "${NODE_DIR}:/root/.sentinelnode" \
-      --publish "${node_api_port}:${node_api_port}/tcp" \
-      --publish "${vmess_port}:${vmess_port}/tcp" \
-      "${NODE_IMAGE}" process start
-      # --tty \
+    if [[ "${node_type}" == "v2ray" ]]; then
+      vmess_port=$(awk -F '=' '{gsub(/ /,"")} /\[vmess\]/{f=1} f && /listen_port/{print $2;exit}' "${NODE_DIR}/v2ray.toml")
+      docker run \
+        --detach="${detach}" \
+        --interactive \
+        --name="${CONTAINER_NAME}" \
+        --rm="${rm}" \
+        --volume "${NODE_DIR}:/root/.sentinelnode" \
+        --publish "${node_api_port}:${node_api_port}/tcp" \
+        --publish "${vmess_port}:${vmess_port}/tcp" \
+        "${NODE_IMAGE}" process start
+        # --tty \
+    fi
+    if [[ "${node_type}" == "wireguard" ]]; then
+      port=$(awk -F '=' '{gsub(/ /,"")} /listen_port/{print $2;exit}' "${NODE_DIR}/wireguard.toml")
+      docker run \
+        --name="${CONTAINER_NAME}" \
+        --rm="${rm}" \
+        --volume /lib/modules:/lib/modules \
+        --volume "${NODE_DIR}:/root/.sentinelnode" \
+        --cap-drop ALL \
+        --cap-add NET_ADMIN \
+        --cap-add NET_BIND_SERVICE \
+        --cap-add NET_RAW \
+        --cap-add SYS_MODULE \
+        --sysctl net.ipv4.ip_forward=1 \
+        --sysctl net.ipv6.conf.all.disable_ipv6=0 \
+        --sysctl net.ipv6.conf.all.forwarding=1 \
+        --sysctl net.ipv6.conf.default.forwarding=1 \
+        --publish "${node_api_port}:${node_api_port}/tcp" \
+        --publish "${port}:${port}/udp" \
+        --detach="${detach}" \
+        --interactive \
+        --tty \
+        "${NODE_IMAGE}" process start
+    fi
   fi
-  if [[ "${node_type}" == "wireguard" ]]; then
-    port=$(awk -F '=' '{gsub(/ /,"")} /listen_port/{print $2;exit}' "${NODE_DIR}/wireguard.toml")
-    docker run \
-      --name="${CONTAINER_NAME}" \
-      --rm="${rm}" \
-      --volume /lib/modules:/lib/modules \
-      --volume "${NODE_DIR}:/root/.sentinelnode" \
-      --cap-drop ALL \
-      --cap-add NET_ADMIN \
-      --cap-add NET_BIND_SERVICE \
-      --cap-add NET_RAW \
-      --cap-add SYS_MODULE \
-      --sysctl net.ipv4.ip_forward=1 \
-      --sysctl net.ipv6.conf.all.disable_ipv6=0 \
-      --sysctl net.ipv6.conf.all.forwarding=1 \
-      --sysctl net.ipv6.conf.default.forwarding=1 \
-      --publish "${node_api_port}:${node_api_port}/tcp" \
-      --publish "${port}:${port}/udp" \
-      --detach="${detach}" \
-      --interactive \
-      "${NODE_IMAGE}" process start
-      # --tty \
-  fi
+  
 }
 
 function cmd_status {
