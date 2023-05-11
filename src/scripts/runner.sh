@@ -74,7 +74,7 @@ function cmd_init {
     must_run wireguard config set "${1}" "${2}"
   }
 
-  function cmd_init_config {
+  function cmd_init_default_config {  
     function generate_moniker {
       id=$(docker create "${NODE_IMAGE}") &&
         name=$(docker inspect --format "{{ .Name }}" "${id}" | cut -c 2-) &&
@@ -98,8 +98,23 @@ function cmd_init {
       echo "  -f, --force    Force the initialization"
     }
 
-    local force=0
+    PUBLIC_IP=$(curl -fsSL https://ifconfig.me)
 
+    echo chain_rpc_addresses="https://rpc.sentinel.co:443,https://rpc.sentinel.quokkastake.io:443,https://sentinel-rpc.badgerbite.io:443"
+    echo handshake_enable=false
+    echo keyring_backend=file
+    echo node_ipv4_address=
+    echo node_listen_on="0.0.0.0:${PORTS[0]}"
+    echo node_moniker=$(generate_moniker)
+    echo node_price=$(query_min_price)
+    echo node_provider=
+    echo node_remote_url="https://${PUBLIC_IP}:${PORTS[0]}"
+    echo node_type="${NODE_TYPE}"
+
+  }
+
+  function cmd_init_config {
+    local force=0
     [[ "${#}" -gt 0 ]] && {
       case "${1}" in
         "-f" | "--force") force=1 ;;
@@ -107,19 +122,6 @@ function cmd_init {
         *) echo "Error: invalid command or option \"${1}\"" && return 1 ;;
       esac
     }
-
-    PUBLIC_IP=$(curl -fsSL https://ifconfig.me)
-
-    local chain_rpc_addresses="https://rpc.sentinel.co:443,https://rpc.sentinel.quokkastake.io:443,https://sentinel-rpc.badgerbite.io:443"
-    local handshake_enable=false
-    local keyring_backend=file
-    local node_ipv4_address=
-    local node_listen_on="0.0.0.0:${PORTS[0]}"
-    local node_moniker && node_moniker=$(generate_moniker)
-    local node_price && node_price=$(query_min_price)
-    local node_provider=
-    local node_remote_url="https://${PUBLIC_IP}:${PORTS[0]}"
-    local node_type="${NODE_TYPE}"
 
     echo "Initializing the configuration..."
     must_run config init --force="${force}"
@@ -165,13 +167,18 @@ function cmd_init {
     config_set "node.type" "${node_type}"
   }
 
+  function cmd_init_new_key {
+    run keys add
+  }
+
   function cmd_init_keys {
-    # read -p "Recover the existing account? [skip]:" -r input
-    # if [[ "${input}" == "no" ]]; then
-    #   run keys add
-    # elif [[ "${input}" == "yes" ]]; then
     run keys add --recover
-    # fi
+  }
+
+  function cmd_init_default_v2ray {
+    echo listen_port=${PORTS[1]}
+    echo transport=grpc
+
   }
 
   function cmd_init_v2ray {
@@ -195,9 +202,6 @@ function cmd_init {
       esac
     }
 
-    local listen_port=${PORTS[1]}
-    local transport=grpc
-
     echo "Initializing the V2Ray configuration..."
     must_run v2ray config init --force="${force}"
 
@@ -208,6 +212,10 @@ function cmd_init {
     # read -p "Enter vmess.transport [${transport}]:" -r input
     # [[ -n "${input}" ]] && transport="${input}"
     v2ray_config_set "vmess.transport" "${transport}"
+  }
+
+  function cmd_init_default_wireguard {
+    export local listen_port=${PORTS[1]}
   }
 
   function cmd_init_wireguard {
@@ -231,7 +239,7 @@ function cmd_init {
       esac
     }
 
-    local listen_port=${PORTS[1]}
+    cmd_init_default_wireguard
 
     echo "Initializing the WireGuard configuration..."
     must_run wireguard config init --force="${force}"
@@ -279,7 +287,7 @@ function cmd_init {
   }
 
   v="${1:-help}" && case "${v}" in
-    "all" | "config" | "help" | "keys" | "v2ray" | "wireguard")
+    "all" | "config" | "help" | "keys" | "new_key" | "v2ray" | "wireguard" | "default_config" | "default_wireguard" | "default_v2ray")
       shift || true
       cmd_init_"${v}" "${@}"
       ;;
@@ -389,15 +397,17 @@ function cmd_start {
         --interactive \
         --name="${CONTAINER_NAME}" \
         --rm="${rm}" \
+        --tty \
         --volume "${NODE_DIR}:/root/.sentinelnode" \
         --publish "${node_api_port}:${node_api_port}/tcp" \
         --publish "${vmess_port}:${vmess_port}/tcp" \
         "${NODE_IMAGE}" process start
-        # --tty \
     fi
     if [[ "${node_type}" == "wireguard" ]]; then
       port=$(awk -F '=' '{gsub(/ /,"")} /listen_port/{print $2;exit}' "${NODE_DIR}/wireguard.toml")
       docker run \
+        --detach="${detach}" \
+        --interactive \
         --name="${CONTAINER_NAME}" \
         --rm="${rm}" \
         --volume /lib/modules:/lib/modules \
@@ -413,8 +423,6 @@ function cmd_start {
         --sysctl net.ipv6.conf.default.forwarding=1 \
         --publish "${node_api_port}:${node_api_port}/tcp" \
         --publish "${port}:${port}/udp" \
-        --detach="${detach}" \
-        --interactive \
         --tty \
         "${NODE_IMAGE}" process start
     fi

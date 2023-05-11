@@ -25,6 +25,7 @@ const electronHandler = {
       return ipcRenderer.invoke('run', args);
     },
     custom: (args: String[]) => ipcRenderer.invoke('custom', args),
+    default: () => ipcRenderer.invoke('default'),
   },
 };
 

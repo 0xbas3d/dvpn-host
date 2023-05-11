@@ -10,7 +10,7 @@ const exec = util.promisify(require('child_process').exec);
 var sudo = require('sudo-prompt');
 var options = {
   name: 'Electron',
-  icns: '/Applications/Electron.app/Contents/Resources/Electron.icns', // (optional),
+  icons: '/Applications/Electron.app/Contents/Resources/Electron.icons', // (optional),
 };
 const sudoExec = util.promisify(sudo.exec);
 
@@ -35,6 +35,19 @@ ipcMain.handle('custom', async (event, data) => {
   }
 });
 
+ipcMain.handle('default', async (event, data) => {
+  const { stdout, stderr } = await exec(
+    `CONTAINER_NAME=temp bash ${path.join(
+      __dirname,
+      '../scripts/runner.sh'
+    )} init default_config ; CONTAINER_NAME=temp bash ${path.join(
+      __dirname,
+      '../scripts/runner.sh'
+    )} init default_v2ray`
+  );
+  return stdout;
+});
+
 ipcMain.handle('run', async (event, data) => {
   try {
     const container = data[0];
@@ -51,21 +64,50 @@ ipcMain.handle('run', async (event, data) => {
       );
       return output;
     } else if (command === 'init') {
-      const mnemonic = data[2];
-      const passphrase = data[3];
+      const config = JSON.parse(data[2]);
+      const keys = Object.keys(config);
+      let config_string = '';
+      for (let i in keys) {
+        if (keys[i] != 'mnemonic' && keys[i] != 'passphrase')
+          config_string += `export ${keys[i]}=${config[keys[i]]};`;
+      }
       const { stdout, stderr } = await exec(
-        `CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} init config ; CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} init wireguard ; printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} init keys`
+        config_string +
+          `CONTAINER_NAME=${container} bash ${path.join(
+            __dirname,
+            '../scripts/runner.sh'
+          )} init config ; CONTAINER_NAME=${container} bash ${path.join(
+            __dirname,
+            '../scripts/runner.sh'
+          )} init ${config.node_type}`
       );
+      console.log(stderr);
       return stdout;
+    } else if (command === 'init_keys') {
+      const config = JSON.parse(data[2]);
+      console.log(config);
+      const mnemonic = 'mnemonic' in config ? config['mnemonic'] : undefined;
+      const passphrase = config['passphrase'];
+      console.log(passphrase);
+      if (mnemonic) {
+        const { stdout, stderr } = await exec(
+          `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${path.join(
+            __dirname,
+            '../scripts/runner.sh'
+          )} init keys`
+        );
+        console.log(stderr);
+        return stdout;
+      } else {
+        const { stdout, stderr } = await exec(
+          `printf "${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${path.join(
+            __dirname,
+            '../scripts/runner.sh'
+          )} init new_key`
+        );
+        const mnemonic = stderr.split('\n')[1];
+        return mnemonic + '$' + stdout;
+      }
     } else if (command === 'start') {
       const passphrase = data[2];
       const { stdout, stderr } = await exec(
