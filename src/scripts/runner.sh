@@ -2,7 +2,7 @@
 
 set -Eeou pipefail
 
-NODE_DIR="${HOME}/.${CONTAINER_NAME}"
+NODE_DIR="${HOME}/.sentinel_${CONTAINER_NAME}"
 NODE_IMAGE=ghcr.io/sentinel-official/dvpn-node:latest
 
 function stop {
@@ -397,7 +397,6 @@ function cmd_start {
         --interactive \
         --name="${CONTAINER_NAME}" \
         --rm="${rm}" \
-        --tty \
         --volume "${NODE_DIR}:/root/.sentinelnode" \
         --publish "${node_api_port}:${node_api_port}/tcp" \
         --publish "${vmess_port}:${vmess_port}/tcp" \
@@ -423,7 +422,6 @@ function cmd_start {
         --sysctl net.ipv6.conf.default.forwarding=1 \
         --publish "${node_api_port}:${node_api_port}/tcp" \
         --publish "${port}:${port}/udp" \
-        --tty \
         "${NODE_IMAGE}" process start
     fi
   fi

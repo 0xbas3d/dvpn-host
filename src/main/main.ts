@@ -18,9 +18,8 @@ ipcMain.handle('custom', async (event, data) => {
   const container = data[0];
   const command = data[1];
   if (command === 'containers') {
-    const { stdout, stderr } = await exec(
-      "docker ps -a --format '{{.Names}}' --filter ancestor=ghcr.io/sentinel-official/dvpn-node:latest"
-    );
+    const { stdout, stderr } = await exec('ls -a $HOME | grep .sentinel_');
+    console.log(stdout);
     return stdout;
   } else {
     const { stdout, stderr } = await exec(
@@ -96,6 +95,7 @@ ipcMain.handle('run', async (event, data) => {
             '../scripts/runner.sh'
           )} init keys`
         );
+        console.log(stdout);
         console.log(stderr);
         return stdout;
       } else {
@@ -106,7 +106,9 @@ ipcMain.handle('run', async (event, data) => {
           )} init new_key`
         );
         const mnemonic = stderr.split('\n')[1];
-        return mnemonic + '$' + stdout;
+        const address = stdout.split('\n')[1].split(' ')[1];
+        const operator = stdout.split('\n')[1].split(' ')[2];
+        return JSON.stringify({ mnemonic, address, operator });
       }
     } else if (command === 'start') {
       const passphrase = data[2];
@@ -114,7 +116,13 @@ ipcMain.handle('run', async (event, data) => {
         `CONTAINER_NAME=${container} bash ${path.join(
           __dirname,
           '../scripts/runner.sh'
-        )} ${command} ; echo ${passphrase} | socat EXEC:"docker attach ${container}",pty STDIN`
+        )} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`
+      );
+      console.log(
+        `CONTAINER_NAME=${container} bash ${path.join(
+          __dirname,
+          '../scripts/runner.sh'
+        )} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`
       );
       if (stdout) return stdout;
       if (stderr) return stderr;
@@ -219,6 +227,7 @@ const createWindow = async () => {
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
+      mainWindow.maximize();
       mainWindow.show();
     }
   });

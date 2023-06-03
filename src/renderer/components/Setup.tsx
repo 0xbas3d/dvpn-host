@@ -12,7 +12,7 @@ const Setup = ({
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
-    <div className="flex flex-col items-center z-50 gap-8">
+    <div className="flex flex-col items-center justify-center z-50 gap-8 h-full">
       <div>
         <div className="text-text-color font-medium text-2xl">
           Container Name
@@ -35,7 +35,6 @@ const Setup = ({
             window.electron.ipcRenderer
               .run([containerName, 'setup'])
               .then((res) => {
-                console.log(res);
                 setLoading(false);
                 next();
               });

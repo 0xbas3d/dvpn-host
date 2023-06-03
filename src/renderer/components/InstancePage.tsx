@@ -11,7 +11,7 @@ const InstancePage = () => {
   const navigate = useNavigate();
   const params = useParams();
   return (
-    <div className="flex flex-col bg-background-color w-full h-full">
+    <div className="flex flex-col bg-background-color w-full min-h-[100vh]">
       <div className="basis-[88%] overflow-auto">
         <div className="flex flex-col pt-10 pb-5 px-20 h-full justify-between">
           <div>
@@ -176,20 +176,12 @@ const InstancePage = () => {
             </div>
           </div>
           <ArrowLeftIcon
-            className="text-text-color cursor-pointer z-50"
+            className="text-text-color cursor-pointer z-50 mt-4"
             width={36}
             onClick={() => navigate('/instances')}
           />
         </div>
       </div>
-      <div
-        className="basis-[12%]"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(31, 94, 255, 0.1) 0%, rgba(49, 53, 117, 0.1) 100%)',
-          backdropFilter: 'blur(50px)',
-        }}
-      ></div>
     </div>
   );
 };

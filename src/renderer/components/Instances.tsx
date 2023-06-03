@@ -21,12 +21,11 @@ const Instances = () => {
       '#',
       'containers',
     ]);
-    console.log(containerNames);
     const containers = containerNames
       .split('\n')
       .filter((containerName) => containerName.length > 0)
       .map((container) => {
-        return { name: container, status: 'Loading' };
+        return { name: container.slice(10), status: 'Loading' };
       });
     setContainers(containers);
   };
@@ -64,7 +63,7 @@ const Instances = () => {
   if (loading) return <Loading />;
   else
     return (
-      <div className="flex flex-col justify-between bg-background-color w-full h-full pt-20">
+      <div className="flex flex-col justify-between bg-background-color w-full min-h-[100vh] py-20">
         <div className="fixed left-0 w-full h-full top-0 bg-[url('./images/main-bg.png')] bg-center bg-no-repeat blur-[300px] mix-blend-color-dodge"></div>
         <div className="basis-[88%]">
           <div className="flex justify-center">
@@ -75,7 +74,7 @@ const Instances = () => {
             />
           </div>
           <div className="flex justify-center">
-            <div className="inline-grid grid-cols-3 gap-6 mt-72">
+            <div className="inline-grid grid-cols-3 gap-6 mt-36">
               {containers &&
                 containers.map((container) => (
                   <InstanceCard
@@ -87,14 +86,6 @@ const Instances = () => {
             </div>
           </div>
         </div>
-        <div
-          className="basis-[12%]"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(31, 94, 255, 0.1) 0%, rgba(49, 53, 117, 0.1) 100%)',
-            backdropFilter: 'blur(50px)',
-          }}
-        ></div>
       </div>
     );
 };

@@ -4,7 +4,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Exo:wght@300;400;500;600;700&display=swap');
 
 html, body, #root {
-    height: 100vh;
     font-family: 'Exo';
 }
 
@@ -21,7 +20,6 @@ html, body, #root {
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #1F5EFF;
-    border-radius: 10px;
   }
   
   /* Handle on hover */
