@@ -19,7 +19,6 @@ ipcMain.handle('custom', async (event, data) => {
   const command = data[1];
   if (command === 'containers') {
     const { stdout, stderr } = await exec('ls -a $HOME | grep .sentinel_');
-    console.log(stdout);
     return stdout;
   } else {
     const { stdout, stderr } = await exec(
@@ -80,14 +79,11 @@ ipcMain.handle('run', async (event, data) => {
             '../scripts/runner.sh'
           )} init ${config.node_type}`
       );
-      console.log(stderr);
       return stdout;
     } else if (command === 'init_keys') {
       const config = JSON.parse(data[2]);
-      console.log(config);
       const mnemonic = 'mnemonic' in config ? config['mnemonic'] : undefined;
       const passphrase = config['passphrase'];
-      console.log(passphrase);
       if (mnemonic) {
         const { stdout, stderr } = await exec(
           `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${path.join(
@@ -95,8 +91,6 @@ ipcMain.handle('run', async (event, data) => {
             '../scripts/runner.sh'
           )} init keys`
         );
-        console.log(stdout);
-        console.log(stderr);
         return stdout;
       } else {
         const { stdout, stderr } = await exec(
@@ -113,12 +107,6 @@ ipcMain.handle('run', async (event, data) => {
     } else if (command === 'start') {
       const passphrase = data[2];
       const { stdout, stderr } = await exec(
-        `CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`
-      );
-      console.log(
         `CONTAINER_NAME=${container} bash ${path.join(
           __dirname,
           '../scripts/runner.sh'
@@ -162,7 +150,6 @@ let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
