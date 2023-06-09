@@ -14,6 +14,10 @@ var options = {
 };
 const sudoExec = util.promisify(sudo.exec);
 
+const SCRIPT_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, 'scripts/runner.sh')
+  : path.join(__dirname, '../../scripts/runner.sh');
+
 ipcMain.handle('custom', async (event, data) => {
   const container = data[0];
   const command = data[1];
@@ -35,13 +39,7 @@ ipcMain.handle('custom', async (event, data) => {
 
 ipcMain.handle('default', async (event, data) => {
   const { stdout, stderr } = await exec(
-    `CONTAINER_NAME=temp bash ${path.join(
-      __dirname,
-      '../scripts/runner.sh'
-    )} init default_config ; CONTAINER_NAME=temp bash ${path.join(
-      __dirname,
-      '../scripts/runner.sh'
-    )} init default_v2ray`
+    `CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_config ; CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_v2ray`
   );
   return stdout;
 });
@@ -52,12 +50,7 @@ ipcMain.handle('run', async (event, data) => {
     const command = data[1];
     if (command === 'setup') {
       const output = await sudoExec(
-        `HOME=${
-          process.env.HOME
-        } ; CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} setup`,
+        `HOME=${process.env.HOME} ; CONTAINER_NAME=${container} bash ${SCRIPT_PATH} setup`,
         options
       );
       return output;
@@ -71,13 +64,7 @@ ipcMain.handle('run', async (event, data) => {
       }
       const { stdout, stderr } = await exec(
         config_string +
-          `CONTAINER_NAME=${container} bash ${path.join(
-            __dirname,
-            '../scripts/runner.sh'
-          )} init config ; CONTAINER_NAME=${container} bash ${path.join(
-            __dirname,
-            '../scripts/runner.sh'
-          )} init ${config.node_type}`
+          `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init config ; CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init ${config.node_type}`
       );
       return stdout;
     } else if (command === 'init_keys') {
@@ -86,18 +73,12 @@ ipcMain.handle('run', async (event, data) => {
       const passphrase = config['passphrase'];
       if (mnemonic) {
         const { stdout, stderr } = await exec(
-          `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${path.join(
-            __dirname,
-            '../scripts/runner.sh'
-          )} init keys`
+          `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init keys`
         );
         return stdout;
       } else {
         const { stdout, stderr } = await exec(
-          `printf "${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${path.join(
-            __dirname,
-            '../scripts/runner.sh'
-          )} init new_key`
+          `printf "${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init new_key`
         );
         const mnemonic = stderr.split('\n')[1];
         const address = stdout.split('\n')[1].split(' ')[1];
@@ -107,27 +88,18 @@ ipcMain.handle('run', async (event, data) => {
     } else if (command === 'start') {
       const passphrase = data[2];
       const { stdout, stderr } = await exec(
-        `CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`
+        `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`
       );
       if (stdout) return stdout;
       if (stderr) return stderr;
     } else if (command === 'stop') {
       const { stdout, stderr } = await exec(
-        ` CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} ${command}`
+        ` CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`
       );
       return stdout;
     } else {
       const { stdout, stderr } = await exec(
-        `CONTAINER_NAME=${container} bash ${path.join(
-          __dirname,
-          '../scripts/runner.sh'
-        )} ${command}`
+        `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`
       );
       return stdout;
     }

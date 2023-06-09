@@ -2,6 +2,7 @@
   "name": "dvpn",
   "version": "1.0.0",
   "main": "./src/main/main.ts",
+  "homepage": "https://sentinel.co/",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
@@ -146,8 +147,8 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "DVPN",
+    "appId": "org.erb.DVPN",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -191,7 +192,7 @@
     },
     "linux": {
       "target": [
-        "AppImage"
+        "deb"
       ],
       "category": "Development"
     },
@@ -201,7 +202,14 @@
       "output": "release/build"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      {
+        "from": "scripts",
+        "to": "scripts",
+        "filter": [
+          "**/*"
+        ]
+      }
     ]
   },
   "devEngines": {
