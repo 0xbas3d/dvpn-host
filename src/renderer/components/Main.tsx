@@ -1,40 +1,36 @@
-import logo from '../images/logo.png';
-import earth from '../images/bg-earth.png';
-import { ArrowRightIcon } from '@heroicons/react/24/solid';
-import HomeButton from './HomeButton';
 import { useNavigate } from 'react-router-dom';
-const Main = () => {
+import { useTranslation } from 'react-i18next';
+
+import logo from '../images/logo.png';
+
+function Main() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
-    <div className="px-48 pt-32 bg-background-color w-full min-h-[100vh]">
-      <div className="fixed left-0 w-full h-full top-0 bg-[url('./images/main-bg.png')] bg-center bg-no-repeat blur-[300px] mix-blend-color-dodge"></div>
-      <div className="absolute right-0 bottom-0">
-        <img src={earth} />
-      </div>
-      <div className="flex justify-between items-center">
+    <div className="px-44 bg-[url('./images/bg-new.png')] bg-[#090a13] p-0 bg-blend-overlay w-full min-h-[100vh]">
+      <div className="fixed  w-full h-full bg-[url('./images/bg-effect.png')] " />
+      <div className="fixed  w-full h-full bottom-10    p-0  bg-[url('./images/characters.png')] " />
+      <div className="absolute pb-[300px] top-[82px] left-[90px]">
         <div>
-          <img src={logo} height={82} />
+          <img alt="logo" src={logo} height={86} />
         </div>
-        <div
-          onClick={() => navigate('/instances')}
-          className="flex items-center border border-border-color text-text-color rounded-full px-8 py-4 cursor-pointer hover:bg-[#1F5EFF] z-50"
-        >
-          <div className="text-4xl font-medium">Go to Instances &nbsp;</div>
-          <div>
-            <ArrowRightIcon height={36} width={48} />
+        <div className="absolute w-[805px]  top-1/2  ">
+          <div className="font-normal  text-[80px] leading-none text-center text-[#F1F2FF]">
+            {t('DVPN Node Launcher ')}
           </div>
-        </div>
-      </div>
-      <div className="pt-[300px]">
-        <div className="inline-grid gap-20 grid-cols-2">
-          <HomeButton text="Sentinel website" />
-          <HomeButton text="Docs.sentinel.co" />
-          <HomeButton text="Discord/tg link" />
-          <HomeButton text="Github Repo link" />
+          <div className="flex justify-center mt-[72px] ">
+            <button
+              type="button"
+              onClick={() => navigate('/instances')}
+              className=" w-[180px] h-[72px] rounded-[63px] text-[24px] text-white bg-[#1F5EFF]"
+            >
+              {t('Start')}
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Main;
