@@ -1,0 +1,12 @@
+{
+    "start_label": "Start",
+    "stop_label":"Stop",
+    "title_label":"DVPN Node Launcher",
+    "instances_label":"Instances",
+    "instance_description":"Launch and Manage Nodes",
+    "view_label":"View",
+    "edit_label":"Edit",
+    "new_node_label":"Launch a New Node",
+    "active_label":"Active",
+    "inactive_label":"Inactive"
+}

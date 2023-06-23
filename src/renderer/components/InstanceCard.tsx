@@ -1,51 +1,59 @@
-import { Container } from './Instances';
 import { useNavigate } from 'react-router-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import { Container } from './Instances';
+import { useTranslation } from 'react-i18next';
+import data from './general.json';
 
-const InstanceCard = ({ instance }: { instance: Container }) => {
+function InstanceCard({ instance }: { instance: Container }) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [openPassword, setOpenPassword] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   return (
-    <div className="bg-[url('./images/instance-bg.png')] cursor-pointer bg-cover  pt-8 rounded-xl min-w-[376px] mix-blend-color-dodge">
-      <div className="flex pl-16 items-center">
-        <div className="text-text-color font-medium text-2xl">
-          {instance.name}
-        </div>
-        <div className="rounded-full bg-[#F6F6F6] p-2 ml-2">
-          {instance.status === 'Running' ? (
-            <div className="text-[#52A911] text-xs">Running</div>
-          ) : (
-            <div className="text-[#861565] text-xs">Stopped</div>
-          )}
-        </div>
+    <div className="bg-black  min-w-[401px] text-white flex flex-col border-[#192a37]  border rounded-[16px] ">
+      <div
+        className={`h-[87px] flex flex-row items-center justify-center ${
+          instance.status === 'Running' ? 'bg-[#295e3a]' : 'bg-[#b11a28]'
+        } w-full rounded-t-[16px]`}
+      >
+        <p className="text-[22px] font-medium  pr-32">{instance.name}</p>
+        <p className="text-[22px] font-medium ">
+          {instance.status === 'Running'
+            ? t(data.active_label)
+            : t(data.inactive_label)}
+        </p>
       </div>
-      <div className="mt-32">
-        <div className="flex w-full border-t-[0.7px] border-[rgba(241,242,255,0.25)]">
-          <div
-            onClick={() => navigate('/instance/' + instance.name)}
-            className="basis-1/2 flex justify-center py-6 px-14 text-text-color font-medium text-2xl border-r border-[rgba(241,242,255,0.25)]"
-          >
-            Details
-          </div>
-          <div
-            className="flex justify-center basis-1/2 py-6 px-14 text-text-color font-medium text-2xl"
-            onClick={async () => {
-              if (instance.status !== 'Running') {
-                setOpenPassword(true);
-              } else {
-                const res = await window.electron.ipcRenderer.run([
-                  instance.name,
-                  'stop',
-                ]);
-              }
-            }}
-          >
-            {instance.status === 'Running' ? 'Stop' : 'Start'}
-          </div>
-        </div>
+      <div className="text-[22px]  font-medium flex h-[142px] flex-row justify-center items-center  ">
+        <button
+          type="button"
+          className="px-8 border-r border-[#192a37] cursor-pointer "
+          onClick={() => navigate(`/instance/${instance.name}`)}
+        >
+          {t(data.view_label)}
+        </button>
+        <button type="button" className="px-8 border-r border-[#192a37]">
+          {t(data.edit_label)}
+        </button>
+        <button
+          type="button"
+          className="px-8"
+          onClick={async () => {
+            if (instance.status !== 'Running') {
+              setOpenPassword(true);
+            } else {
+              const res = await window.electron.ipcRenderer.run([
+                instance.name,
+                'stop',
+              ]);
+            }
+          }}
+        >
+          {instance.status === 'Running'
+            ? t(data.stop_label)
+            : t(data.start_label)}
+        </button>
       </div>
       <Dialog.Root
         open={openPassword}
@@ -71,6 +79,7 @@ const InstanceCard = ({ instance }: { instance: Container }) => {
             <div className="mt-[25px] flex justify-end">
               <Dialog.Close asChild>
                 <button
+                  type="button"
                   className="text-lg bg-green4 text-white hover:bg-green5 focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
                   onClick={async () => {
                     const res = await window.electron.ipcRenderer.run([
@@ -85,7 +94,10 @@ const InstanceCard = ({ instance }: { instance: Container }) => {
               </Dialog.Close>
             </div>
             <Dialog.Close asChild>
-              <button className="mt-4 text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none">
+              <button
+                type="button"
+                className="mt-4 text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+              >
                 <XMarkIcon className="fill-white" />
               </button>
             </Dialog.Close>
@@ -94,6 +106,6 @@ const InstanceCard = ({ instance }: { instance: Container }) => {
       </Dialog.Root>
     </div>
   );
-};
+}
 
 export default InstanceCard;
