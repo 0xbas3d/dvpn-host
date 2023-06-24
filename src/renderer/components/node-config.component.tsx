@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, Dispatch } from 'react';
 
 const configFields = [
   'chain_rpc_addresses',
@@ -23,13 +23,13 @@ const format = (str: string) => {
   return capitalizedWords.join(' ');
 };
 
-const NodeConfig = ({
+export const NodeConfig = ({
   config,
   setConfig,
 }: {
   config: { [key: string]: string };
-  setConfig: React.Dispatch<
-    React.SetStateAction<
+  setConfig: Dispatch<
+    SetStateAction<
       | {
           [key: string]: string;
         }
@@ -38,37 +38,31 @@ const NodeConfig = ({
   >;
 }) => {
   return (
-    <div className="flex flex-col items-center z-50 overflow-auto">
-      <div className="min-w-[350px] flex flex-col gap-8">
-        {configFields.map((field, index) => {
-          if (
-            (config && config!['node_type'] === 'v2ray') ||
-            field !== 'transport'
-          )
+    <div className="z-50 flex flex-col items-center overflow-auto">
+      <div className="flex min-w-[350px] flex-col gap-8">
+        {configFields.map((field) => {
+          if ((config && config!.node_type === 'v2ray') || field !== 'transport') {
             return (
-              <div key={`config_${index}`}>
-                <div className="text-text-color font-medium text-2xl">
-                  {format(field)}
-                </div>
-                <div className="w-full bg-[#1E2148] rounded-lg px-5 py-3 mt-2">
+              <div key={field}>
+                <div className="text-2xl font-medium text-text-color">{format(field)}</div>
+                <div className="mt-2 w-full rounded-lg bg-[#1E2148] px-5 py-3">
                   <input
                     type="text"
                     value={config[field]}
-                    onChange={(e) =>
-                      setConfig((prev) => {
+                    onChange={(e) => {
+                      return setConfig((prev) => {
                         return { ...prev, [field]: e.target.value };
-                      })
-                    }
-                    className="bg-transparent text-text-color text-lg w-full focus:outline-none"
+                      });
+                    }}
+                    className="w-full bg-transparent text-lg text-text-color focus:outline-none"
                   />
                 </div>
               </div>
             );
-          else return null;
+          }
+          return null;
         })}
       </div>
     </div>
   );
 };
-
-export default NodeConfig;

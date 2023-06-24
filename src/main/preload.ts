@@ -10,8 +10,9 @@ const electronHandler = {
       ipcRenderer.send(channel, args);
     },
     on(channel: Channels, func: (...args: unknown[]) => void) {
-      const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
-        func(...args);
+      const subscription = (_event: IpcRendererEvent, ...args: unknown[]) => {
+        return func(...args);
+      };
       ipcRenderer.on(channel, subscription);
 
       return () => {
@@ -19,13 +20,19 @@ const electronHandler = {
       };
     },
     once(channel: Channels, func: (...args: unknown[]) => void) {
-      ipcRenderer.once(channel, (_event, ...args) => func(...args));
+      ipcRenderer.once(channel, (_event, ...args) => {
+        return func(...args);
+      });
     },
     run(args: String[]) {
       return ipcRenderer.invoke('run', args);
     },
-    custom: (args: String[]) => ipcRenderer.invoke('custom', args),
-    default: () => ipcRenderer.invoke('default'),
+    custom: (args: String[]) => {
+      return ipcRenderer.invoke('custom', args);
+    },
+    default: () => {
+      return ipcRenderer.invoke('default');
+    },
   },
 };
 
