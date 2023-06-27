@@ -70,22 +70,22 @@ function NodeSideBar() {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(buttonList[0].name);
   return (
-    <div className="text-text-color bg-[#0e1018] border-2 border-[#181a28] p-6 rounded-lg lg:w-4/12 w-6/12">
-      <div className="text-xl">
-        <div className="w-full flex py-2 border-b-2 border-[#181a28] px-4">
-          <div className="w-4/12 text-[#808080]">
+    <span className="text-text-color bg-[#0e1018] border-2 border-[#181a28] p-6 rounded-lg lg:w-4/12 w-6/12 block">
+      <span className="text-xl">
+        <span className="w-full flex py-2 border-b-2 border-[#181a28] px-4">
+          <span className="w-4/12 text-[#808080]">
             {t(data.ip_address_label)}
-          </div>
-          <div className="w-1/12 text-[#808080]">:</div>
-          <div className="w-7/12">136.251.15.107</div>
-        </div>
-        <div className="w-full flex py-4 border-b-2 border-[#181a28] px-4">
-          <div className="w-4/12 text-[#808080]">{t(data.country_label)}</div>
-          <div className="w-1/12 text-[#808080]">:</div>
-          <div className="w-7/12">Canada</div>
-        </div>
-      </div>
-      <div className="mt-8">
+          </span>
+          <span className="w-1/12 text-[#808080]">:</span>
+          <span className="w-7/12">136.251.15.107</span>
+        </span>
+        <span className="w-full flex py-4 border-b-2 border-[#181a28] px-4">
+          <span className="w-4/12 text-[#808080]">{t(data.country_label)}</span>
+          <span className="w-1/12 text-[#808080]">:</span>
+          <span className="w-7/12">Canada</span>
+        </span>
+      </span>
+      <span className="mt-8">
         {buttonList.map((button) => (
           <button
             type="button"
@@ -104,8 +104,8 @@ function NodeSideBar() {
             <ChevronRightIcon className="w-6 h-6 ml-auto text-[#808080] group-hover:text-text-color" />
           </button>
         ))}
-      </div>
-    </div>
+      </span>
+    </span>
   );
 }
 
