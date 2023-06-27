@@ -1,15 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Container } from 'renderer/common/types/container.type';
+import { Container } from 'renderer/common/types';
+import { useTranslation } from 'react-i18next';
 import { InstanceCard } from './instance-card.component';
 import { NewInstance } from './new-instance.component.';
 import { Loading } from './loading.component';
 import logo from '../assets/images/logo.png';
 
 export const Instances = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [containers, setContainers] = useState<Container[]>([]);
 
   const getContainers = async () => {
@@ -20,7 +22,7 @@ export const Instances = () => {
         return containerName.length > 0;
       })
       .map((container) => {
-        return { name: container.slice(10), status: 'Loading' };
+        return { name: container.slice(10), status: t('general:loading_label') };
       });
     setContainers(containerNameObjects);
   };
@@ -70,7 +72,7 @@ export const Instances = () => {
             }}>
             <img
               src={logo}
-              alt="logo"
+              alt={t('general:sentinel_label')}
             />
           </button>
         </div>

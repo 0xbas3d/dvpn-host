@@ -23,20 +23,12 @@ const format = (str: string) => {
   return capitalizedWords.join(' ');
 };
 
-export const NodeConfig = ({
-  config,
-  setConfig,
-}: {
+export type NodeConfigProps = {
   config: { [key: string]: string };
-  setConfig: Dispatch<
-    SetStateAction<
-      | {
-          [key: string]: string;
-        }
-      | undefined
-    >
-  >;
-}) => {
+  setConfig: Dispatch<SetStateAction<Record<string, string>>>;
+};
+
+export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
   return (
     <div className="z-50 flex flex-col items-center overflow-auto">
       <div className="flex min-w-[350px] flex-col gap-8">

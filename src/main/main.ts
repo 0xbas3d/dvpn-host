@@ -1,4 +1,5 @@
-/* eslint global-require: off, no-console: off */
+/* eslint global-require: off, no-console: off, import/no-extraneous-dependencies: off */
+
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
@@ -70,9 +71,8 @@ ipcMain.handle('run', async (_, data) => {
     }
     if (command === 'init_keys') {
       const config = JSON.parse(data[2]);
-      const mnemonic = 'mnemonic' in config ? config.mnemonic : undefined;
-      const { passphrase } = config;
-      if (mnemonic) {
+      const { mnemonic, passphrase } = config;
+      if (mnemonic.length > 0) {
         const { stdout } = await exec(
           `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init keys`,
         );

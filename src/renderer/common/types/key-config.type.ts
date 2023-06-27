@@ -1,4 +1,4 @@
 export type KeyConfigType = {
-  mnemonic: string | undefined;
-  passphrase: string | undefined;
+  mnemonic: string;
+  passphrase: string;
 };

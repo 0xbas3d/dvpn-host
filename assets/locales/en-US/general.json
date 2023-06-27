@@ -1,0 +1,18 @@
+{
+  "sentinel_label": "Sentinel",
+  "sentinel_website": "Sentinel Website",
+  "docs_link": "Docs.sentinel.co",
+  "github_repo_link": "Github Repo Link",
+  "social_link": "Discord/tg link",
+  "go_to_instances_label": "Go to Instances",
+  "yes": "Yes",
+  "no": "No",
+  "running_label": "Running",
+  "stopped_label": "Stopped",
+  "details_label": "Details",
+  "start_label": "Start",
+  "stop_label": "Stop",
+  "enter_password_label": "Enter Password",
+  "loading_label": "Loading",
+  "add_new_label": "Add New"
+}

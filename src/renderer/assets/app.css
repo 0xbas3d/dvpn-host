@@ -12,20 +12,20 @@ body,
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  @apply w-2.5;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  @apply bg-transparent;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #1f5eff;
+  @apply bg-[#1f5eff];
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  @apply bg-[#555];
 }

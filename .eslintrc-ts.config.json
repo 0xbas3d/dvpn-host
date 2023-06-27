@@ -103,8 +103,7 @@
       {
         "devDependencies": [
           "tailwind.config.ts",
-          "wagmi.config.ts",
-          "codegen.ts"
+          "electron"
         ]
       }
     ]
