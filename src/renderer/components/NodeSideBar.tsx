@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
-import { ChevronRightIcon } from '@heroicons/react/24/solid';
-import { ClockIcon, CircleStackIcon } from '@heroicons/react/24/outline';
+import {
+  ChevronRightIcon,
+  ChatBubbleBottomCenterIcon,
+  StopCircleIcon,
+} from '@heroicons/react/24/solid';
+import {
+  ClockIcon,
+  CircleStackIcon,
+  CpuChipIcon,
+} from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import data from './general.json';
 
@@ -9,7 +17,7 @@ function StyledIcon({ IconComponent, selected }: any) {
   return (
     <IconComponent
       className={twJoin(
-        'w-10 h-10 mr-6 p-2 rounded-full float-left text-[#808080] group-hover:text-text-color bg-[3b3c3e] group-hover:bg-[#1c65c7]',
+        'w-10 h-10 mr-6 p-2 rounded-full float-left text-[#808080] group-hover:text-text-color bg-[3b3c3e] group-hover:bg-[#1c65c7] transition',
         selected ? 'bg-[#1c65c7] text-text-color' : ''
       )}
     />
@@ -20,7 +28,7 @@ const buttonList = [
   {
     name: data.node_overview_label,
     icon: (selected: any) => (
-      <StyledIcon IconComponent={ClockIcon} selected={selected} />
+      <StyledIcon IconComponent={CpuChipIcon} selected={selected} />
     ),
   },
   {
@@ -38,19 +46,22 @@ const buttonList = [
   {
     name: data.subscription_history_label,
     icon: (selected: any) => (
-      <StyledIcon IconComponent={ClockIcon} selected={selected} />
+      <StyledIcon
+        IconComponent={ChatBubbleBottomCenterIcon}
+        selected={selected}
+      />
     ),
   },
   {
     name: data.bandwidth_usage_label,
     icon: (selected: any) => (
-      <StyledIcon IconComponent={ClockIcon} selected={selected} />
+      <StyledIcon IconComponent={StopCircleIcon} selected={selected} />
     ),
   },
   {
     name: data.edit_node_configuration_label,
     icon: (selected: any) => (
-      <StyledIcon IconComponent={ClockIcon} selected={selected} />
+      <StyledIcon IconComponent={CpuChipIcon} selected={selected} />
     ),
   },
 ];
@@ -79,7 +90,7 @@ function NodeSideBar() {
           <button
             type="button"
             className={twJoin(
-              'w-full flex items-center text-xl p-5 border-2 rounded-3xl mb-4 text-left font-semibold hover:border-[#1c65c7] hover:text-text-color',
+              'transition w-full flex items-center text-xl p-5 border-2 rounded-3xl mb-4 text-left font-semibold hover:border-[#1c65c7] hover:text-text-color',
               selected === button.name
                 ? 'border-[#1c65c7] text-text-color'
                 : 'group border-[#181a28] text-[#808080] hover:cursor-pointer'
