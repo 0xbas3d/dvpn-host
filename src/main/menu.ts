@@ -1,3 +1,5 @@
+/* eslint import/no-extraneous-dependencies: off */
+
 import { app, Menu, shell, BrowserWindow, MenuItemConstructorOptions } from 'electron';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
