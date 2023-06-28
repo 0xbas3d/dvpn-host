@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 export const Loading = () => {
   const { t } = useTranslation();
