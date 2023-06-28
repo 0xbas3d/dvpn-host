@@ -5,24 +5,27 @@ import plus from '../assets/images/plus.png';
 export const NewInstance = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const handleAddNewInstance = async () => {
+    navigate('/addInstance');
+  };
+
   return (
     <button
       type="button"
-      onClick={() => {
-        return navigate('/addInstance');
-      }}
-      className="min-w-[376px] cursor-pointer  rounded-3xl bg-[url('../assets/images/new-bg.png')] bg-cover mix-blend-color-dodge">
+      tabIndex={0}
+      onClick={handleAddNewInstance}
+      className="flex min-w-[401px] cursor-pointer flex-col rounded-[16px] border border-[#192a37]  bg-black text-white ">
       <img
         alt="plus"
         src={plus}
-        width={62}
-        height={62}
-        className="relative left-[50%] translate-x-[-50%] translate-y-[100%]"
+        width={63}
+        height={63}
+        className="relative left-[50%] translate-x-[-50%] translate-y-[80%]"
       />
-
-      <div className="mt-28 text-center text-2xl font-medium text-text-color">
-        {t('general:add_new_label')}
-      </div>
+      <span className="mt-20 w-full text-[22px] font-medium text-text-color">
+        {t('general:launch_a_new_node_label')}
+      </span>
     </button>
   );
 };

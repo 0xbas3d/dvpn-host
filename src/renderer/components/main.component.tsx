@@ -1,51 +1,39 @@
-import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { HomeButton } from './home-button.component';
 import logo from '../assets/images/logo.png';
-import earth from '../assets/images/bg-earth.png';
 
 export const Main = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleNavigateToInstance = async () => {
+    navigate('/instances');
+  };
+
   return (
-    <div className="min-h-[100vh] w-full bg-background-color px-48 pt-32">
-      <div className="fixed left-0 top-0 h-full w-full bg-[url('../assets/images/main-bg.png')] bg-center bg-no-repeat mix-blend-color-dodge blur-[300px]" />
-      <div className="absolute bottom-0 right-0">
-        <img
-          alt=""
-          src={earth}
-        />
-      </div>
-      <div className="flex items-center justify-between">
+    <div className="min-h-[100vh]  w-full bg-[#090A13] bg-[url('./images/bg-new2.png')] bg-cover bg-center  bg-no-repeat  p-0  px-44 bg-blend-difference">
+      <div className="fixed  h-full w-full" />
+      <div className="fixed  bottom-10 h-full w-full    bg-[url('./images/characters.png')]  p-0 " />
+      <div className="absolute left-[90px] top-[82px] pb-[300px]">
         <div>
           <img
-            alt={t('general:sentinel_label')}
+            alt="logo"
             src={logo}
-            height={82}
+            height={86}
           />
         </div>
-        <button
-          type="button"
-          onClick={() => {
-            return navigate('/instances');
-          }}
-          className="z-50 flex cursor-pointer items-center gap-2 rounded-full border border-border-color px-8 py-4 text-text-color hover:bg-[#1F5EFF]">
-          <div className="text-4xl font-medium">{t('general:go_to_instances_label')}</div>
-          <div>
-            <ArrowRightIcon
-              height={36}
-              width={48}
-            />
+        <div className="absolute top-1/2  w-[805px]  ">
+          <div className="text-center  text-[80px] font-normal leading-none text-[#F1F2FF]">
+            {t('general:tittle')}
           </div>
-        </button>
-      </div>
-      <div className="pt-[300px]">
-        <div className="inline-grid grid-cols-2 gap-20">
-          <HomeButton>{t('general:sentinel_website')}</HomeButton>
-          <HomeButton>{t('general:docs_link')}</HomeButton>
-          <HomeButton>{t('general:social_link')}</HomeButton>
-          <HomeButton>{t('general:github_repo_link')}</HomeButton>
+          <div className="mt-[72px] flex justify-center ">
+            <button
+              type="button"
+              onClick={handleNavigateToInstance}
+              className=" h-[72px] w-[180px] rounded-[63px] bg-[#1F5EFF] text-[24px] text-white">
+              {t('start_label')}
+            </button>
+          </div>
         </div>
       </div>
     </div>
