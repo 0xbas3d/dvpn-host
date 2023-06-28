@@ -14,5 +14,6 @@
   "stop_label": "Stop",
   "enter_password_label": "Enter Password",
   "loading_label": "Loading",
-  "add_new_label": "Add New"
+  "add_new_label": "Add New",
+  "add_label":"add label"
 }
