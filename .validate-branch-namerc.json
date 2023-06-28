@@ -1,0 +1,4 @@
+{
+    "pattern": "(fix|ui|refactor|feat|feature|chore|test|perf)/(can-\\d+-)?[a-z-]+",
+    "errorMsg": "Branch name doesn't satisfy the validation rule"
+}
