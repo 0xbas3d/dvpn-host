@@ -1,0 +1,17 @@
+{
+    "include": [
+        "src",
+        "**/*.js"
+    ],
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ESNext",
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true
+    },
+    "exclude": [
+        "public",
+        "node_modules"
+    ]
+}
