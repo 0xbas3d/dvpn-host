@@ -1,14 +1,17 @@
-/* eslint global-require: off, no-console: off, promise/always-return: off */
+/* eslint global-require: off, no-console: off, import/no-extraneous-dependencies: off */
+
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-var sudo = require('sudo-prompt');
-var options = {
+const sudo = require('sudo-prompt');
+
+const options = {
   name: 'Electron',
   icons: '/Applications/Electron.app/Contents/Resources/Electron.icons', // (optional),
 };
@@ -18,89 +21,83 @@ const SCRIPT_PATH = app.isPackaged
   ? path.join(process.resourcesPath, 'scripts/runner.sh')
   : path.join(__dirname, '../../scripts/runner.sh');
 
-ipcMain.handle('custom', async (event, data) => {
+ipcMain.handle('custom', async (_, data) => {
   const container = data[0];
   const command = data[1];
   if (command === 'containers') {
-    const { stdout, stderr } = await exec('ls -a $HOME | grep .sentinel_');
+    const { stdout } = await exec('ls -a $HOME | grep .sentinel_');
     return stdout;
-  } else {
-    const { stdout, stderr } = await exec(
-      `docker ps --all --filter name="${container}" --quiet`
-    );
-    if (stdout === '') return 'Stopped';
-    const output = await exec(
-      `docker container inspect --format "{{ .State.Running }}" "${container}"`
-    );
-    if (output.stdout === 'true\n') return 'Running';
-    return 'Stopped';
   }
+  const { stdout } = await exec(`docker ps --all --filter name="${container}" --quiet`);
+  if (stdout === '') return 'Stopped';
+  const output = await exec(
+    `docker container inspect --format "{{ .State.Running }}" "${container}"`,
+  );
+  if (output.stdout === 'true\n') return 'Running';
+  return 'Stopped';
 });
 
-ipcMain.handle('default', async (event, data) => {
-  const { stdout, stderr } = await exec(
-    `CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_config ; CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_v2ray`
+ipcMain.handle('default', async () => {
+  const { stdout } = await exec(
+    `CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_config ; CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_v2ray`,
   );
   return stdout;
 });
 
-ipcMain.handle('run', async (event, data) => {
+ipcMain.handle('run', async (_, data) => {
   try {
     const container = data[0];
     const command = data[1];
     if (command === 'setup') {
       const output = await sudoExec(
         `HOME=${process.env.HOME} ; CONTAINER_NAME=${container} bash ${SCRIPT_PATH} setup`,
-        options
+        options,
       );
       return output;
-    } else if (command === 'init') {
+    }
+    if (command === 'init') {
       const config = JSON.parse(data[2]);
       const keys = Object.keys(config);
-      let config_string = '';
-      for (let i in keys) {
-        if (keys[i] != 'mnemonic' && keys[i] != 'passphrase')
-          config_string += `export ${keys[i]}=${config[keys[i]]};`;
-      }
-      const { stdout, stderr } = await exec(
-        config_string +
-          `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init config ; CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init ${config.node_type}`
+      let configString = '';
+      keys.forEach((key) => {
+        if (key !== 'mnemonic' && key !== 'passphrase') {
+          configString += `export ${key}=${config[key]};`;
+        }
+      });
+      const { stdout } = await exec(
+        `${configString}CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init config ; CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init ${config.node_type}`,
       );
       return stdout;
-    } else if (command === 'init_keys') {
+    }
+    if (command === 'init_keys') {
       const config = JSON.parse(data[2]);
-      const mnemonic = 'mnemonic' in config ? config['mnemonic'] : undefined;
-      const passphrase = config['passphrase'];
-      if (mnemonic) {
-        const { stdout, stderr } = await exec(
-          `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init keys`
+      const { mnemonic, passphrase } = config;
+      if (mnemonic.length > 0) {
+        const { stdout } = await exec(
+          `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init keys`,
         );
         return stdout;
-      } else {
-        const { stdout, stderr } = await exec(
-          `printf "${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init new_key`
-        );
-        const mnemonic = stderr.split('\n')[1];
-        const address = stdout.split('\n')[1].split(' ')[1];
-        const operator = stdout.split('\n')[1].split(' ')[2];
-        return JSON.stringify({ mnemonic, address, operator });
       }
-    } else if (command === 'start') {
+      const { stdout, stderr } = await exec(
+        `printf "${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init new_key`,
+      );
+      const newMnemonic = stderr.split('\n')[1];
+      const address = stdout.split('\n')[1].split(' ')[1];
+      const operator = stdout.split('\n')[1].split(' ')[2];
+      return JSON.stringify({ mnemonic: newMnemonic, address, operator });
+    }
+    if (command === 'start') {
       const passphrase = data[2];
       const { stdout, stderr } = await exec(
-        `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`
+        `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`,
       );
       if (stdout) return stdout;
       if (stderr) return stderr;
     } else if (command === 'stop') {
-      const { stdout, stderr } = await exec(
-        ` CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`
-      );
+      const { stdout } = await exec(` CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`);
       return stdout;
     } else {
-      const { stdout, stderr } = await exec(
-        `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`
-      );
+      const { stdout } = await exec(`CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`);
       return stdout;
     }
   } catch (err: any) {
@@ -120,8 +117,10 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+ipcMain.on('ipc-example', async (event) => {
+  const msgTemplate = (pingPong: string) => {
+    return `IPC test: ${pingPong}`;
+  };
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
@@ -145,8 +144,10 @@ const installExtensions = async () => {
 
   return installer
     .default(
-      extensions.map((name) => installer[name]),
-      forceDownload
+      extensions.map((name) => {
+        return installer[name];
+      }),
+      forceDownload,
     )
     .catch(console.log);
 };
@@ -158,7 +159,7 @@ const createWindow = async () => {
 
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
+    : path.join(__dirname, '.././assets');
 
   const getAssetPath = (...paths: string[]): string => {
     return path.join(RESOURCES_PATH, ...paths);

@@ -1,0 +1,27 @@
+{
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "arrowParens": "always",
+    "endOfLine": "lf",
+    "bracketSameLine": true,
+    "semi": true,
+    "jsxSingleQuote": false,
+    "singleAttributePerLine": true,
+    "plugins": [
+        "./node_modules/prettier-plugin-sort-json",
+        "./node_modules/prettier-plugin-packagejson",
+        "./node_modules/prettier-plugin-multiline-arrays",
+        "./node_modules/prettier-plugin-organize-imports",
+        "./node_modules/prettier-plugin-jsdoc",
+        "./node_modules/prettier-plugin-tailwindcss"
+    ],
+    "overrides": [
+        {
+            "files": "*.svg",
+            "options": {
+                "parser": "html"
+            }
+        }
+    ]
+}
