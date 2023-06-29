@@ -1,0 +1,33 @@
+{
+    "plugins": [
+        "prettier"
+    ],
+    "extends": [
+        "airbnb-base",
+        "prettier"
+    ],
+    "parserOptions": {
+        "project": "jsconfig.json",
+        "sourceType": "module",
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        "prettier/prettier": [
+            "warn",
+            {
+                "printWidth": 100,
+                "singleQuote": true,
+                "trailingComma": "all",
+                "arrowParens": "always",
+                "endOfLine": "lf",
+                "bracketSameLine": true,
+                "semi": true,
+                "plugins": [
+                    "./node_modules/prettier-plugin-multiline-arrays",
+                    "./node_modules/prettier-plugin-organize-imports",
+                    "./node_modules/prettier-plugin-jsdoc"
+                ]
+            }
+        ]
+    }
+}

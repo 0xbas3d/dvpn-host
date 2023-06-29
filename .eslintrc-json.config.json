@@ -1,0 +1,29 @@
+{
+    "plugins": [
+        "json",
+        "prettier"
+    ],
+    "extends": [
+        "plugin:json/recommended-with-comments",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": [
+            "warn",
+            {
+                "printWidth": 100,
+                "singleQuote": true,
+                "trailingComma": "all",
+                "arrowParens": "always",
+                "endOfLine": "lf",
+                "bracketSameLine": true,
+                "semi": true,
+                "plugins": [
+                    "./node_modules/prettier-plugin-sort-json",
+                    "./node_modules/prettier-plugin-packagejson",
+                    "./node_modules/prettier-plugin-multiline-arrays"
+                ]
+            }
+        ]
+    }
+}
