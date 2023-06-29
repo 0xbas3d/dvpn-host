@@ -14,5 +14,7 @@
   "stop_label": "Stop",
   "enter_password_label": "Enter Password",
   "loading_label": "Loading",
-  "add_new_label": "Add New"
+  "add_new_label": "Add New",
+  "node_monicker_label": "Node Monicker",
+  "start_node_label": "Start Node"
 }
