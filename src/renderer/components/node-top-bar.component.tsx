@@ -5,12 +5,11 @@ export const NodeTopBar = () => {
   const { t } = useTranslation();
   return (
     <div className="flex">
-      <span className="mr-auto">
-        <img
-          src={logo}
-          alt="logo"
-        />
-      </span>
+      <img
+        src={logo}
+        alt="logo"
+        className="mr-auto"
+      />
       <div className="flex space-x-14">
         <span className="text-right text-text-color">
           <span className="block pb-1 text-3xl font-bold">
