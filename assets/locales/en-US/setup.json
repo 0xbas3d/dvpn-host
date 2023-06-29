@@ -1,0 +1,17 @@
+{
+  "setup_dependencies": "Setup Dependencies",
+  "node_configuration": "Node Configuration",
+  "key_creation_import": "Key Creation/Import",
+  "wallet_credentials": "Wallet Credentials",
+  "node_warning_one": "Write this mnemonic in a safe place",
+  "node_warning_two": "Node can only run if there are tokens in the wallet",
+  "mnemonic_label": "Mnemonic",
+  "passphrase_label": "Passphrase",
+  "address_label": "Address",
+  "operator_label": "Operator",
+  "import_key": "Import Key",
+  "setup_install": "Setup/Install",
+  "container_name": "Container name",
+  "next_label": "Next",
+  "submit_label": "Submit"
+}
