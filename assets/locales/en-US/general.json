@@ -14,5 +14,7 @@
   "stop_label": "Stop",
   "enter_password_label": "Enter Password",
   "loading_label": "Loading",
-  "add_new_label": "Add New"
+  "add_new_label": "Add New",
+  "stop_node_to_edit_config_description": "* Please Stop The Node In Order To Edit The Configuration",
+  "submit_label": "Submit"
 }
