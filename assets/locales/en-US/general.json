@@ -14,5 +14,13 @@
   "stop_label": "Stop",
   "enter_password_label": "Enter Password",
   "loading_label": "Loading",
-  "add_new_label": "Add New"
+  "add_new_label": "Add New",
+  "ip_address_label": "IP Address",
+  "country_label": "Country",
+  "node_overview_label": "Node Overview",
+  "dvpn_earnings_label": "DVPN Earnings",
+  "session_history_label": "Session History",
+  "subscription_history_label": "Subscription History",
+  "bandwidth_usage_label": "Bandwidth Usage",
+  "edit_node_configuration_label": "Edit Node Configuration"
 }

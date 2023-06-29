@@ -34,7 +34,8 @@
     "react-i18next": "^13.0.1",
     "react-router-dom": "^6.8.1",
     "source-map-support": "^0.5.21",
-    "sudo-prompt": "^9.2.1"
+    "sudo-prompt": "^9.2.1",
+    "tailwind-merge": "^1.13.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
