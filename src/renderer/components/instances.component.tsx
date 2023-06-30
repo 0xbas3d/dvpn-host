@@ -72,7 +72,7 @@ export const Instances = () => {
         <div className="flex flex-col items-center justify-center">
           <button
             type="button"
-            className="z-50 pt-5 text-[96px] text-white"
+            className="z-50 pt-20 text-[96px] text-white"
             onClick={navigateToMainPage}>
             {t('general:instances_label')}
           </button>
@@ -81,7 +81,7 @@ export const Instances = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <div className="mt-7  inline-grid grid-cols-1 gap-6 md:grid-cols-2 2xl:grid-cols-3">
+          <div className="mt-28  inline-grid grid-cols-1 gap-6 md:grid-cols-2 2xl:grid-cols-3">
             {containers &&
               containers.map((container) => {
                 return (

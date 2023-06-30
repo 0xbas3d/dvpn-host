@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { routeConst } from 'renderer/common/types/consts/route-const.common';
-// import plus from '../assets/images/plus.png';
 
 export const NewInstance = () => {
   const { t } = useTranslation();

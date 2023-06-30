@@ -138,7 +138,7 @@ export const AddInstance = () => {
             mnemonic: '',
           });
           setOpen(false);
-          navigate('/instance');
+          navigate(routeConst.instances);
         }}>
         <Dialog.Portal>
           <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black opacity-50" />
