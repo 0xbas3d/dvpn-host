@@ -8,17 +8,22 @@ import {
 import { ClockIcon, CircleStackIcon, CpuChipIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
-type IconProps = {
-  IconComponent: any;
-  isSelected: boolean;
+export type StyledIconProps = {
+  icon: any;
+  selected: boolean;
 };
 
-const StyledIcon = ({ IconComponent, isSelected }: IconProps) => {
+export type InfoButton = {
+  name: string;
+  icon: any;
+};
+
+const StyledIcon = ({ icon: Icon, selected }: StyledIconProps) => {
   return (
-    <IconComponent
+    <Icon
       className={twJoin(
         'float-left mr-6 h-10 w-10 rounded-full p-2 transition group-hover:bg-[#1c65c7] group-hover:text-text-color',
-        isSelected ? 'bg-[#1c65c7] text-text-color' : 'bg-[#3b3c3e] text-[#808080]',
+        selected ? 'bg-[#1c65c7] text-text-color' : 'bg-[#3b3c3e] text-[#808080]',
       )}
     />
   );
@@ -27,39 +32,32 @@ const StyledIcon = ({ IconComponent, isSelected }: IconProps) => {
 export const NodeSideBar = () => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(0);
-  const buttonsInfoList = [
+  const infoButtons: InfoButton[] = [
     {
-      name: 'node_overview_label',
+      name: t('node_overview_label', { ns: 'general' }),
       icon: CpuChipIcon,
     },
     {
-      name: 'dvpn_earnings_label',
+      name: t('dvpn_earnings_label', { ns: 'general' }),
       icon: CircleStackIcon,
     },
     {
-      name: 'session_history_label',
+      name: t('session_history_label', { ns: 'general' }),
       icon: ClockIcon,
     },
     {
-      name: 'subscription_history_label',
+      name: t('subscription_history_label', { ns: 'general' }),
       icon: ChatBubbleBottomCenterIcon,
     },
     {
-      name: 'bandwidth_usage_label',
+      name: t('bandwidth_usage_label', { ns: 'general' }),
       icon: StopCircleIcon,
     },
     {
-      name: 'edit_node_configuration_label',
+      name: t('edit_node_configuration_label', { ns: 'general' }),
       icon: CpuChipIcon,
     },
   ];
-
-  const buttonsList = buttonsInfoList.map((buttonInfo, index) => {
-    return {
-      name: t(buttonInfo.name, { ns: 'general' }),
-      icon: StyledIcon({ IconComponent: buttonInfo.icon, isSelected: selected === index }),
-    };
-  });
 
   return (
     <div className="block w-6/12 rounded-lg border-2 border-[#181a28] bg-[#0e1018] p-6 text-text-color lg:w-4/12">
@@ -76,7 +74,7 @@ export const NodeSideBar = () => {
         </span>
       </span>
       <span className="mt-8">
-        {buttonsList.map((button, index) => {
+        {infoButtons.map((button, index) => {
           return (
             <button
               key={button.name}
@@ -90,7 +88,10 @@ export const NodeSideBar = () => {
               onClick={() => {
                 setSelected(index);
               }}>
-              {button.icon}
+              <StyledIcon
+                icon={button.icon}
+                selected={selected === index}
+              />
               {button.name}
               <ChevronRightIcon className="ml-auto h-6 w-6 text-[#808080] group-hover:text-text-color" />
             </button>
