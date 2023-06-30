@@ -35,5 +35,7 @@
   "session_history_label": "Session History",
   "subscription_history_label": "Subscription History",
   "bandwidth_usage_label": "Bandwidth Usage",
-  "edit_node_configuration_label": "Edit Node Configuration"
+  "edit_node_configuration_label": "Edit Node Configuration",
+  "stop_node_to_edit_config": "* Please Stop The Node In Order To Edit The Configuration",
+  "submit_label": "Submit"
 }
