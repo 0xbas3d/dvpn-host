@@ -1,12 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import logo from '../assets/images/logo.png';
 
 export const NodeTopBar = () => {
   const { t } = useTranslation();
   return (
     <div className="flex">
       <img
-        src={logo}
+        src="/assets/images/logo.png"
         alt="logo"
         className="mr-auto"
       />
