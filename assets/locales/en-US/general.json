@@ -14,5 +14,13 @@
   "stop_label": "Stop",
   "enter_password_label": "Enter Password",
   "loading_label": "Loading",
-  "add_new_label": "Add New"
+  "add_new_label": "Add New",
+  "title":"dVPN Node Launcher",
+  "instances_label":"Instances",
+  "launch_and_manage_nodes_label":"Launch and Manage Nodes",
+  "view_label":"View",
+  "edit_label":"Edit",
+  "launch_a_new_node_label":"Launch a New Node",
+  "active_label":"Active",
+  "inactive_label":"Inactive"
 }

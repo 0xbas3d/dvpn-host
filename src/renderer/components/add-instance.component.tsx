@@ -4,6 +4,7 @@ import { ArrowLeftIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Dialog from '@radix-ui/react-dialog';
 import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
 import { useTranslation } from 'react-i18next';
+import { routeConst } from 'renderer/common/types/consts/route-const.common';
 import { Loading } from './loading.component';
 import { AddInstanceStepper } from './add-instance-stepper.component';
 import { Setup } from './setup.component';
@@ -57,7 +58,7 @@ export const AddInstance = () => {
   };
 
   const goBack = () => {
-    return step === 1 ? navigate('/instances') : back();
+    return step === 1 ? navigate(routeConst.instances) : back();
   };
 
   const addInstance = async () => {
@@ -137,7 +138,7 @@ export const AddInstance = () => {
             mnemonic: '',
           });
           setOpen(false);
-          navigate('/instances');
+          navigate(routeConst.instances);
         }}>
         <Dialog.Portal>
           <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black opacity-50" />
