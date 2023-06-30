@@ -17,9 +17,8 @@ const configFields = [
   'transport',
 ];
 
-const format = (str: string) => {
-  const words = str.split('_');
-  return words.join(' ');
+const format = (text: string) => {
+  return text.split('_').join(' ');
 };
 
 export type NodeConfigProps = {
@@ -47,7 +46,7 @@ export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
         </span>
         <span className="w-7/12">
           <p className="mt-10 text-center text-xl font-bold text-[#444251]">
-            {t('auto_fill_config_with_default_parameters_description', { ns: 'general' })}
+            {t('auto_fill_config_with_default_parameters', { ns: 'general' })}
           </p>
         </span>
         <span className="z-50 mt-4 flex w-9/12 flex-col items-center">
@@ -66,7 +65,7 @@ export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
                         type="text"
                         value={config[field]}
                         onChange={(e) => {
-                          return handleSetConfig(e, field);
+                          handleSetConfig(e, field);
                         }}
                         className="w-full rounded-2xl border border-[#1c2030] bg-[#0f0f1b] py-5 text-lg text-text-color focus:outline-none"
                       />
