@@ -5,6 +5,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import { Container } from 'renderer/common/types';
 import { useTranslation } from 'react-i18next';
 import { twJoin } from 'tailwind-merge';
+import { routeConst } from 'renderer/common/types/consts/route-const.common';
 
 export type InstanceCardProps = {
   instance: Container;
@@ -20,8 +21,8 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
     await window.electron.ipcRenderer.run([instance.name, 'start', password]);
   };
 
-  const handleNavigateToInstance = async () => {
-    navigate(`/instance/${instance.name}`);
+  const handleNavigateToInstance = () => {
+    navigate(routeConst.instance(instance.name));
   };
 
   const stopContainer = async () => {
@@ -32,29 +33,22 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
     }
   };
 
-  const statusClass = twJoin(
-    'flex',
-    'h-[87px]',
-    'flex-row',
-    'items-center',
-    'justify-center',
-    instance.status === 'Running' ? 'bg-[#295e3a]' : 'bg-[#b11a28]',
-    'w-full',
-    'rounded-t-[16px]',
-  );
-
   return (
-    <div className="flex  min-w-[401px] flex-col rounded-[16px] border border-[#192a37]  bg-black text-white ">
-      <div className={statusClass}>
+    <div className="flex  w-full flex-col rounded-[16px] border border-[#192a37]  bg-black text-white ">
+      <div
+        className={twJoin(
+          'flex h-[87px] w-full flex-row items-center justify-center rounded-t-[16px] ',
+          instance.status === 'Running' ? 'bg-[#295e3a]' : 'bg-[#b11a28]',
+        )}>
         <p className="pr-32 text-[22px]  font-medium">{instance.name}</p>
         <p className="text-[22px] font-medium ">
           {instance.status === 'Running' ? t('general:active_label') : t('general:inactive_label')}
         </p>
       </div>
-      <div className="flex  h-[142px] flex-row items-center justify-center text-[22px] font-medium  ">
+      <div className="flex  h-fit flex-row items-center justify-center py-14 text-[22px] font-medium  ">
         <button
           type="button"
-          className="cursor-pointer border-r border-[#192a37] px-8 "
+          className="border-r border-[#192a37] px-8 "
           onClick={handleNavigateToInstance}>
           {t('general:view_label')}
         </button>

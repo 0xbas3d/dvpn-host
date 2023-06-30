@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftIcon, ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
-import sampleQr from '../assets/images/sample-qr.png';
+import { routeConst } from 'renderer/common/types/consts/route-const.common';
 
 export const InstancePage = () => {
   const navigate = useNavigate();
@@ -81,12 +81,6 @@ export const InstancePage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex basis-1/4 justify-center">
-                  <img
-                    alt=""
-                    src={sampleQr}
-                  />
-                </div>
               </div>
             </div>
             <div className="mt-11 grid grid-cols-3 gap-20">
@@ -153,7 +147,7 @@ export const InstancePage = () => {
             className="z-50 mt-4 cursor-pointer text-text-color"
             width={36}
             onClick={() => {
-              return navigate('/instances');
+              return navigate(routeConst.instances);
             }}
           />
         </div>

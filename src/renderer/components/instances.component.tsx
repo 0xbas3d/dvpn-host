@@ -30,6 +30,9 @@ export const Instances = () => {
     setLoading(true);
     getContainers();
     setLoading(false);
+    getContainers().finally(() => {
+      setLoading(false);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,7 +50,7 @@ export const Instances = () => {
     );
   };
 
-  const navigateToMainPage = async () => {
+  const navigateToMainPage = () => {
     navigate('/');
   };
 
@@ -64,12 +67,12 @@ export const Instances = () => {
 
   if (loading) return <Loading />;
   return (
-    <div className="min-h-[100vh] w-full bg-[#090A13] bg-[url('./images/bg-new2.png')]  bg-cover  bg-center bg-no-repeat p-0 bg-blend-difference">
+    <div className="min-h-[100vh] w-full bg-[#090A13] bg-[url('./images/page-bg.png')]  bg-cover  bg-center bg-no-repeat p-0 bg-blend-difference">
       <div className="basis-[88%]">
         <div className="flex flex-col items-center justify-center">
           <button
             type="button"
-            className="z-50 cursor-pointer pt-20 text-[96px] text-white"
+            className="z-50 pt-5 text-[96px] text-white"
             onClick={navigateToMainPage}>
             {t('general:instances_label')}
           </button>
@@ -78,7 +81,7 @@ export const Instances = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <div className="mt-28  inline-grid grid-cols-1 gap-6 md:grid-cols-2 2xl:grid-cols-3">
+          <div className="mt-7  inline-grid grid-cols-1 gap-6 md:grid-cols-2 2xl:grid-cols-3">
             {containers &&
               containers.map((container) => {
                 return (

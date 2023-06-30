@@ -15,10 +15,7 @@
   "enter_password_label": "Enter Password",
   "loading_label": "Loading",
   "add_new_label": "Add New",
-
-
-  "tittle":"DVPN Node Launcher",
-  "title_label":"DVPN Node Launcher",
+  "title":"dVPN Node Launcher",
   "instances_label":"Instances",
   "launch_and_manage_nodes_label":"Launch and Manage Nodes",
   "view_label":"View",

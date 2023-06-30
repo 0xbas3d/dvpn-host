@@ -16,11 +16,11 @@ export const App = () => {
           element={<Main />}
         />
         <Route
-          path="/instances"
+          path="/instance"
           element={<Instances />}
         />
         <Route
-          path="/addInstance"
+          path="/add-instance"
           element={<AddInstance />}
         />
         <Route
