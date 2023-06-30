@@ -70,7 +70,7 @@ export const NodeSideBar = () => {
         <span className="flex w-full border-b-2 border-[#181a28] px-4 py-4">
           <span className="w-4/12 text-[#808080]">{t('country_label', { ns: 'general' })}</span>
           <span className="w-1/12 text-[#808080]">:</span>
-          <span className="w-7/12">Canada</span>
+          <span className="w-7/12">Canada </span>
         </span>
       </span>
       <span className="mt-8">
