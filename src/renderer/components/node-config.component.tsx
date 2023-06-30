@@ -23,7 +23,7 @@ const format = (text: string) => {
 
 export type NodeConfigProps = {
   config: { [key: string]: string };
-  setConfig: Dispatch<SetStateAction<Record<string, string> | undefined>>;
+  setConfig: Dispatch<SetStateAction<Record<string, string>>>;
 };
 
 export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
