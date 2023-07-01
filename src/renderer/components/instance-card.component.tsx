@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { Container } from 'renderer/common/types';
 import { useTranslation } from 'react-i18next';
+import { routeConst } from 'renderer/common/types/consts/route-const.common';
 
 export type InstanceCardProps = {
   instance: Container;
@@ -17,6 +18,10 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
 
   const startContainer = async () => {
     await window.electron.ipcRenderer.run([instance.name, 'start', password]);
+  };
+
+  const handleNavigateToInstance = () => {
+    navigate(routeConst.instance(instance.name));
   };
 
   const stopContainer = async () => {
@@ -43,9 +48,7 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
         <div className="flex w-full border-t-[0.7px] border-[rgba(241,242,255,0.25)]">
           <button
             type="button"
-            onClick={() => {
-              return navigate(`/instance/${instance.name}`);
-            }}
+            onClick={handleNavigateToInstance}
             className="flex basis-1/2 justify-center border-r border-[rgba(241,242,255,0.25)] px-14 py-6 text-2xl font-medium text-text-color">
             {t('general:details_label')}
           </button>

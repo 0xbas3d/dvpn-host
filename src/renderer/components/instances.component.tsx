@@ -31,6 +31,7 @@ export const Instances = () => {
     setLoading(true);
     getContainers();
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateStatus = async (containerObj: Container[]) => {

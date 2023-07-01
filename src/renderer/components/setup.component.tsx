@@ -12,6 +12,7 @@ export const Setup = ({ containerName, setContainerName, next, setLoading }: Set
   const { t } = useTranslation();
   const setupContainer = () => {
     if (containerName === '') {
+      // eslint-disable-next-line no-alert
       alert('Container name cannot be empty');
     } else {
       setLoading(true);
