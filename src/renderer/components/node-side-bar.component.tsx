@@ -60,7 +60,7 @@ export const NodeSideBar = () => {
   ];
 
   return (
-    <div className="block w-6/12 rounded-lg border-2 border-[#181a28] bg-[#0e1018] p-6 text-text-color lg:w-4/12">
+    <div className="rounded-lg border-2 border-[#181a28] bg-[#0e1018] p-6 text-text-color">
       <span className="text-xl">
         <span className="flex w-full border-b-2 border-[#181a28] px-4 py-2">
           <span className="w-4/12 text-[#808080]">{t('ip_address_label', { ns: 'general' })}</span>

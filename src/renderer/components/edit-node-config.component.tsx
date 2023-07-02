@@ -1,5 +1,5 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const configFields = [
@@ -21,13 +21,10 @@ const format = (text: string) => {
   return text.split('_').join(' ');
 };
 
-export type EditNodeConfigProps = {
-  config: Record<string, string>;
-  setConfig: Dispatch<SetStateAction<Record<string, string> | undefined>>;
-};
-
-export const EditNodeConfig = ({ config, setConfig }: EditNodeConfigProps) => {
+export const EditNodeConfig = () => {
   const { t } = useTranslation();
+
+  const [config, setConfig] = useState<Record<string, string>>({});
 
   const handleSetConfig = (e: ChangeEvent<HTMLInputElement>, field: string) => {
     setConfig((prev) => {
@@ -36,7 +33,7 @@ export const EditNodeConfig = ({ config, setConfig }: EditNodeConfigProps) => {
   };
 
   return (
-    <div className="z-50 flex flex-col items-center bg-contain pb-20">
+    <div className="z-50 flex flex-col items-center bg-contain">
       <div className="flex w-full flex-col items-center justify-center">
         <span className="w-full rounded-xl border-2 border-[#1c2030] bg-[#0f0f1b] px-8 py-8 text-[27px] text-[#839c7b]">
           {t('stop_node_to_edit_config', { ns: 'general' })}
