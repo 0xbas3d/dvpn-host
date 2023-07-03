@@ -1,14 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { ArrowLeftIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Dialog from '@radix-ui/react-dialog';
-import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Loading } from './loading.component';
+import { useNavigate } from 'react-router-dom';
+import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
+import { routeConst } from 'renderer/common/types/consts/route-const.common';
 import { AddInstanceStepper } from './add-instance-stepper.component';
-import { Setup } from './setup.component';
 import { AddKey } from './add-key.component';
+import { Loading } from './loading.component';
 import { NodeConfig } from './node-config.component';
+import { Setup } from './setup.component';
 
 export const AddInstance = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ export const AddInstance = () => {
   };
 
   const goBack = () => {
-    return step === 1 ? navigate('/instances') : back();
+    return step === 1 ? navigate(routeConst.instances) : back();
   };
 
   const addInstance = async () => {
@@ -139,7 +140,7 @@ export const AddInstance = () => {
             mnemonic: '',
           });
           setOpen(false);
-          navigate('/instances');
+          navigate(routeConst.instances);
         }}>
         <Dialog.Portal>
           <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black opacity-50" />

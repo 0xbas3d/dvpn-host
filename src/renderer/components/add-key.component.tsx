@@ -1,6 +1,6 @@
-import { SetStateAction, useState, Dispatch } from 'react';
-import { KeyConfigType } from 'renderer/common/types';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { KeyConfigType } from 'renderer/common/types';
 
 export type AddKeyProps = {
   keyConfig: KeyConfigType;

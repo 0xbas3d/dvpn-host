@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { InstanceInfo } from './instance-info.component';
 import { ChartData } from './chart.component';
-import { TempNavBar } from './temp-navbar.component';
+import { InstanceInfo } from './instance-info.component';
 import { NodeUsed } from './node-used.component';
+import { TempNavBar } from './temp-navbar.component';
 
 export const SubscriptionHistory = () => {
   const { t } = useTranslation();
@@ -50,6 +50,7 @@ export const SubscriptionHistory = () => {
                   <td className="px-12 py-4">{t('data_consumed_label', { ns: 'general' })}</td>
                   <td className="px-12 py-4">{t('data_left_label', { ns: 'general' })}</td>
                   <td className="hidden px-12 py-4 lg:table-cell">
+                    {t('node_used_label', { ns: 'general' })}
                     {t('node_used_label', { ns: 'general' })}
                   </td>
                   <td className="hidden py-4 pl-4 lg:table-cell ">

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { InstanceInfo } from './instance-info.component';
 import { ChartData } from './chart.component';
+import { InstanceInfo } from './instance-info.component';
 import { TempNavBar } from './temp-navbar.component';
 
 export const BandwidthUsage = () => {

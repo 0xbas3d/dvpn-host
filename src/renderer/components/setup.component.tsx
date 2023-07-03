@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch, DispatchWithoutAction } from 'react';
+import { Dispatch, DispatchWithoutAction, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type SetupProps = {
