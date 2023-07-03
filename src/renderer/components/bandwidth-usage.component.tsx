@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { useTranslation } from 'react-i18next';
 import { InstanceInfo } from './instance-info.component';
 import { ChartData } from './chart.component';
@@ -14,20 +13,26 @@ export const BandwidthUsage = () => {
         <p className="text-[36px] font-semibold leading-[36px]">
           {t('subscription_history_label')}
         </p>
-        <InstanceInfo
-          div1Heading={t('general:total_bandwidth_consumed_label')}
-          div1SubHeading={+12.21}
-          div1Text="10 Mbps"
-          div2Heading={t('general:unused_bandwidth_label')}
-          div2SubHeading={0}
-          div2Text="100 GB"
-          div3Heading={t('general:average_usage_per_day_label')}
-          div3SubHeading={-2.21}
-          div3Text="12h : 31m : 2s"
-        />
+        <div className="grid grid-cols-2 lg:w-full lg:grid-cols-3">
+          <InstanceInfo
+            heading={t('total_bandwidth_consumed_label', { ns: 'general' })}
+            percentage={+12.21}
+            value="10 Mbps"
+          />
+          <InstanceInfo
+            heading={t('unused_bandwidth_label', { ns: 'general' })}
+            percentage={0}
+            value="100 GB"
+          />
+          <InstanceInfo
+            heading={t('average_usage_per_24_hrs_label', { ns: 'general' })}
+            percentage={-2.21}
+            value="12h : 31m : 2s"
+          />
+        </div>
         <ChartData
-          heading={t('general:bandwidth_usage_label')}
-          type={1}
+          heading={t('bandwidth_usage_label', { ns: 'general' })}
+          type="1"
         />
       </div>
     </div>

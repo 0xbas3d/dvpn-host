@@ -24,7 +24,7 @@ export const Main = () => {
       <div className="flex items-center justify-between">
         <div>
           <img
-            alt={t('general:sentinel_label')}
+            alt={t('sentinel_label', { ns: 'general' })}
             src={logo}
             height={82}
           />
@@ -33,7 +33,9 @@ export const Main = () => {
           type="button"
           onClick={handleNavigateToInstance}
           className="z-50 flex cursor-pointer items-center gap-2 rounded-full border border-border-color px-8 py-4 text-text-color hover:bg-[#1F5EFF]">
-          <div className="text-4xl font-medium">{t('general:go_to_instances_label')}</div>
+          <div className="text-4xl font-medium">
+            {t('go_to_instances_label', { ns: 'general' })}
+          </div>
           <div>
             <ArrowRightIcon
               height={36}
@@ -44,10 +46,10 @@ export const Main = () => {
       </div>
       <div className="pt-[300px]">
         <div className="inline-grid grid-cols-2 gap-20">
-          <HomeButton>{t('general:sentinel_website')}</HomeButton>
-          <HomeButton>{t('general:docs_link')}</HomeButton>
-          <HomeButton>{t('general:social_link')}</HomeButton>
-          <HomeButton>{t('general:github_repo_link')}</HomeButton>
+          <HomeButton>{t('sentinel_website', { ns: 'general' })}</HomeButton>
+          <HomeButton>{t('docs_link', { ns: 'general' })}</HomeButton>
+          <HomeButton>{t('social_link', { ns: 'general' })}</HomeButton>
+          <HomeButton>{t('github_repo_link', { ns: 'general' })}</HomeButton>
         </div>
       </div>
     </div>

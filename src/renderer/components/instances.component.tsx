@@ -22,7 +22,7 @@ export const Instances = () => {
         return containerName.length > 0;
       })
       .map((container) => {
-        return { name: container.slice(10), status: t('general:loading_label') };
+        return { name: container.slice(10), status: t('loading_label', { ns: 'general' }) };
       });
     setContainers(containerNameObjects);
   };
@@ -73,7 +73,7 @@ export const Instances = () => {
             }}>
             <img
               src={logo}
-              alt={t('general:sentinel_label')}
+              alt={t('sentinel_label', { ns: 'general' })}
             />
           </button>
         </div>

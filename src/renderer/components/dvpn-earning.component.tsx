@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { useTranslation } from 'react-i18next';
 import { InstanceInfo } from './instance-info.component';
 import { ChartData } from './chart.component';
@@ -11,23 +10,29 @@ export const DvpnEarning = () => {
       <TempNavBar />
 
       <div className="m-10  w-fit text-white lg:m-0 lg:px-20">
-        <p className="text-[36px] font-semibold leading-[36px]">{t('dvpn_earnings_label')}</p>
-
-        <InstanceInfo
-          div1Heading={t('general:total_earnings_label')}
-          div1SubHeading={+12.21}
-          div1Text="99%"
-          div2Heading={t('general:average_usage_per_day_label')}
-          div2SubHeading={-2.21}
-          div2Text="35 GB"
-          div3Heading={t('general:price_per_gb_label')}
-          div3SubHeading={-2.21}
-          div3Text="12h : 31m : 2s"
-        />
-
+        <p className="text-[36px] font-semibold leading-[36px]">
+          {t('dvpn_earnings_label', { ns: 'general' })}
+        </p>
+        <div className="grid grid-cols-2 lg:w-full lg:grid-cols-3">
+          <InstanceInfo
+            heading={t('total_earnings_label', { ns: 'general' })}
+            percentage={+12.21}
+            value="99%"
+          />
+          <InstanceInfo
+            heading={t('average_usage_per_24_hrs_label', { ns: 'general' })}
+            percentage={-2.21}
+            value="35 GB"
+          />
+          <InstanceInfo
+            heading={t('price_per_gb_label', { ns: 'general' })}
+            percentage={-2.21}
+            value="12h : 31m : 2s"
+          />
+        </div>
         <ChartData
-          heading={t('general:bandwidth_usage_label')}
-          type={1}
+          heading={t('bandwidth_usage_label', { ns: 'general' })}
+          type="1"
         />
       </div>
     </div>

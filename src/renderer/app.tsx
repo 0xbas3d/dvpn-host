@@ -9,6 +9,8 @@ import { DvpnEarning } from './components/dvpn-earning.component';
 import { SubscriptionHistory } from './components/subscription-history.component';
 import { BandwidthUsage } from './components/bandwidth-usage.component';
 import { SessionHistory } from './components/session-history.component';
+import './components/setup';
+
 import './assets/app.css';
 
 export const App = () => {
@@ -32,19 +34,19 @@ export const App = () => {
           element={<InstancePage />}
         />
         <Route
-          path="/dvpnEarnings/:name"
+          path="/earnings/:name"
           element={<DvpnEarning />}
         />
         <Route
-          path="/sessionHistory/:name"
+          path="/history/session/:name"
           element={<SessionHistory />}
         />
         <Route
-          path="/subscriptionHistory/:name"
+          path="/history/subscription/:name"
           element={<SubscriptionHistory />}
         />
         <Route
-          path="/bandwidthUsage/:name"
+          path="/bandwidth-usage/:name"
           element={<BandwidthUsage />}
         />
       </Routes>

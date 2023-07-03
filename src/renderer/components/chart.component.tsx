@@ -1,24 +1,29 @@
 import { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { twJoin } from 'tailwind-merge';
-import { Chart, CategoryScale, LinearScale, BarController, BarElement } from 'chart.js';
 import { useTranslation } from 'react-i18next';
+import { twJoin } from 'tailwind-merge';
+import './setup';
 
-Chart.register(CategoryScale, LinearScale, BarController, BarElement);
+enum ButtonId {
+  Btn1D = 'btn1D',
+  Btn1M = 'btn1M',
+  Btn1Y = 'btn1Y',
+}
 
 export type ChartDataProps = {
   heading: string;
-  type: number;
+  type: '1' | '2';
 };
 
 export const ChartData = ({ heading, type }: ChartDataProps) => {
   const { t } = useTranslation();
-  const [selectedButton, setSelectedButton] = useState('btn1M');
-  const handleClick = (buttonId: any) => {
+  const [selectedButton, setSelectedButton] = useState(ButtonId.Btn1M);
+
+  const handleClick = (buttonId: ButtonId) => {
     setSelectedButton(buttonId);
   };
 
-  const Year = [
+  const monthNames = [
     'January',
     'February',
     'March',
@@ -33,11 +38,11 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
     'December',
   ];
 
-  const Day = Array.from({ length: 24 }, (_, index) => {
+  const days = Array.from({ length: 24 }, (_, index) => {
     return index;
   });
 
-  const Month = Array.from({ length: 30 }, (_, index) => {
+  const monthDays = Array.from({ length: 30 }, (_, index) => {
     return index + 1;
   });
 
@@ -49,11 +54,11 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
   let labels;
 
   if (selectedButton === 'btn1Y') {
-    labels = Year.map(String);
+    labels = monthNames.map(String);
   } else if (selectedButton === 'btn1M') {
-    labels = Month.map(String);
+    labels = monthDays.map(String);
   } else if (selectedButton === 'btn1D') {
-    labels = Day.map(String);
+    labels = days.map(String);
   }
 
   const data = {
@@ -103,13 +108,12 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
   };
 
   return (
-    <div className="mt-7 w-[95%] justify-center rounded-2xl border-2 border-[#171d28] bg-[#0F131A] lg:w-full ">
+    <div className="mt-7 justify-center rounded-2xl border-2 border-[#171d28] bg-[#0F131A] lg:w-full ">
       <div className=" flex flex-row p-7 ">
         <p className="basis-3/6 text-[28px] font-semibold  lg:basis-[80%] ">{heading}</p>
         <div className="pl-16 text-[16px] font-normal">
           <button
             type="button"
-            id="btn1D"
             className={twJoin([
               'mx-2 p-[6px] leading-[15.85px]',
               selectedButton === 'btn1D'
@@ -117,13 +121,12 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
                 : 'bg-[#211E28] font-normal',
             ])}
             onClick={() => {
-              handleClick('btn1D');
+              handleClick(ButtonId.Btn1D);
             }}>
-            {t('general:one_day_label')}
+            {t('1d_label', { ns: 'general' })}
           </button>
           <button
             type="button"
-            id="btn1M"
             className={twJoin([
               'mx-2 p-[6px] leading-[15.85px]',
               selectedButton === 'btn1M'
@@ -131,13 +134,12 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
                 : 'bg-[#211E28] font-normal',
             ])}
             onClick={() => {
-              handleClick('btn1M');
+              handleClick(ButtonId.Btn1M);
             }}>
-            {t('general:one_month_label')}
+            {t('1m_label', { ns: 'general' })}
           </button>
           <button
             type="button"
-            id="btn1Y"
             className={twJoin([
               'mx-2 p-[6px] leading-[15.85px]',
               selectedButton === 'btn1Y'
@@ -145,13 +147,13 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
                 : 'bg-[#211E28] font-normal',
             ])}
             onClick={() => {
-              handleClick('btn1Y');
+              handleClick(ButtonId.Btn1Y);
             }}>
-            {t('general:one_year_label')}
+            {t('1y_label', { ns: 'general' })}
           </button>
         </div>
       </div>
-      <div className={twJoin(['mx-6 w-[95%] py-2', type === 1 ? 'h-[450px]' : 'h-[209px]'])}>
+      <div className={twJoin(['mx-6 py-2', type === '1' ? 'h-[450px]' : 'h-[209px]'])}>
         <Bar
           data={data}
           options={options}

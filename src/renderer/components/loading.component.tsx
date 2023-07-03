@@ -8,7 +8,7 @@ export const Loading = () => {
       <div className="flex h-full w-full items-center justify-center">
         <div className="flex w-full flex-col justify-center">
           <div className="text-2xl font-medium text-text-color">
-            {t('general:loading_label')} ..
+            {t('loading_label', { ns: 'general' })} ..
           </div>
           <div className="mt-4 h-4 w-full rounded-full bg-white">
             <div className="h-full w-[50%] rounded-full bg-[#2169ff]" />

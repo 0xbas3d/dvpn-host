@@ -3,23 +3,23 @@ export const routeConst = {
   notFoundError: '/404',
   instances: '/instance',
   addInstance: '/add-instance',
-  dvpnEarings: '/dvpn-earings',
-  sessionHis: '/session-history',
-  subscriptionHis: '/subscription-history',
-  bandwidthUse: '/bandwidth-usage',
+  dvpnEarings: '/earnings',
+  sessionHistories: '/history/session',
+  subscriptionHistories: '/history/subscription',
+  bandwidthUsages: '/bandwidth-usage',
   instance: (instanceName: string) => {
     return [routeConst.instances, instanceName].join('/');
   },
-  dvpnEaring: (instanceName: string) => {
+  earing: (instanceName: string) => {
     return [routeConst.dvpnEarings, instanceName].join('/');
   },
   sessionHistory: (instanceName: string) => {
-    return [routeConst.sessionHis, instanceName].join('/');
+    return [routeConst.sessionHistories, instanceName].join('/');
   },
   subscriptionHistory: (instanceName: string) => {
-    return [routeConst.subscriptionHis, instanceName].join('/');
+    return [routeConst.subscriptionHistories, instanceName].join('/');
   },
   bandwidthUsage: (instanceName: string) => {
-    return [routeConst.bandwidthUse, instanceName].join('/');
+    return [routeConst.bandwidthUsages, instanceName].join('/');
   },
 };

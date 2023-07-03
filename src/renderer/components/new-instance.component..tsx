@@ -23,7 +23,7 @@ export const NewInstance = () => {
       />
 
       <div className="mt-28 text-center text-2xl font-medium text-text-color">
-        {t('general:add_new_label')}
+        {t('add_new_label', { ns: 'general' })}
       </div>
     </button>
   );
