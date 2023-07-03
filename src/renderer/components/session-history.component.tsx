@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useTranslation } from 'react-i18next';
 import { ChartData } from './chart.component';
-import { TempNavBar } from './temp-navbar.component';
 import { NodeUsed } from './node-used.component';
+import { TempNavBar } from './temp-navbar.component';
 
 export const SessionHistory = () => {
   const { t } = useTranslation();
@@ -17,14 +17,14 @@ export const SessionHistory = () => {
 
       <div className="m-10 w-fit text-white lg:m-0">
         <p className="w-fit text-[36px] font-semibold leading-[36px]">
-          {t('general:session_history_label')}
+          {t('session_history_label', { ns: 'general' })}
         </p>
 
         <div className="grid grid-cols-2 lg:min-w-full lg:grid-cols-4 ">
           <div className={boxStyle}>
             <div className="flex flex-row pb-8  ">
               <p className="basis-3/4 text-[20px] font-medium text-[#808080]">
-                {t('general:active_session_label')}
+                {t('active_session_label', { ns: 'general' })}
               </p>
               <p className="basis-1/4 text-[16px] font-medium text-[#70BF86]">+12.21%</p>
             </div>
@@ -34,7 +34,7 @@ export const SessionHistory = () => {
           <div className={boxStyle}>
             <div className="flex flex-row pb-8">
               <p className="basis-3/4 text-[20px] font-medium text-[#808080]">
-                {t('general:total_session_label')}
+                {t('total_session_label', { ns: 'general' })}
               </p>
               <p className="basis-1/4 text-[16px] font-medium text-[#DA1C2C]">-2.21%</p>
             </div>
@@ -44,7 +44,7 @@ export const SessionHistory = () => {
           <div className={boxStyle}>
             <div className="flex flex-row pb-8">
               <p className=" text-[20px] font-medium text-[#808080]">
-                {t('general:highest_active_session_label')}
+                {t('highest_active_session_label', { ns: 'general' })}
               </p>
             </div>
             <div className={boxText}>10 H</div>
@@ -53,7 +53,7 @@ export const SessionHistory = () => {
           <div className={boxStyle}>
             <div className="flex flex-row pb-8">
               <p className="text-[20px] font-medium text-[#808080]">
-                {t('general:longest_session_label')}
+                {t('longest_session_label', { ns: 'general' })}
               </p>
             </div>
             <div className={boxText}>12h : 31m : 2s</div>
@@ -61,25 +61,31 @@ export const SessionHistory = () => {
         </div>
 
         <ChartData
-          heading={t('general:bandwidth_usage_label')}
+          heading={t('bandwidth_usage_label', { ns: 'general' })}
           type={2}
         />
 
         <div className="mt-7 w-fit rounded-2xl border-2 border-[#171d28] bg-[#0F131A] ">
-          <p className="p-8 text-[28px] font-semibold ">{t('general:session_history_label')}</p>
+          <p className="p-8 text-[28px] font-semibold ">
+            {t('session_history_label', { ns: 'general' })}
+          </p>
           <div className="flex flex-row bg-[#161A25]">
             <table>
               <thead>
                 <tr className="min-w-fit text-[16px] text-[#CBCBCB]">
-                  <td className="py-4 pl-10 pr-20">{t('general:session_start_time_label')}</td>
-                  <td className="py-4 pl-10 pr-20">{t('general:date_label')}</td>
-                  <td className="py-4 pl-10 pr-20">{t('general:duration_label')}</td>
-                  <td className="hidden py-4 pl-10 pr-20 lg:table-cell">
-                    {t('general:node_used_label')}
+                  <td className="py-4 pl-10 pr-20">
+                    {t('session_start_time_label', { ns: 'general' })}
                   </td>
-                  <td className="py-4 pl-10 pr-20">{t('general:data_consumed_label')}</td>
+                  <td className="py-4 pl-10 pr-20">{t('date_label', { ns: 'general' })}</td>
+                  <td className="py-4 pl-10 pr-20">{t('duration_label', { ns: 'general' })}</td>
+                  <td className="hidden py-4 pl-10 pr-20 lg:table-cell">
+                    {t('node_used_label', { ns: 'general' })}
+                  </td>
+                  <td className="py-4 pl-10 pr-20">
+                    {t('data_consumed_label', { ns: 'general' })}
+                  </td>
                   <td className="hidden py-4 pl-4 lg:table-cell ">
-                    {t('general:location_of_node_label')}
+                    {t('location_of_node_label', { ns: 'general' })}
                   </td>
                 </tr>
               </thead>

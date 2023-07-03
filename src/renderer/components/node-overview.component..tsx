@@ -22,39 +22,39 @@ export const InstancePage = () => {
         <div className="mr-3 mt-7 rounded-2xl border-2  border-[#171d28]  bg-[#0F131A] px-6 py-10">
           <div className="grid grid-cols-3">
             <div className="flex flex-col items-start pl-10  ">
-              <p className={gridP1}>{t('general:wallet_address_label')}</p>
+              <p className={gridP1}>{t('wallet_address_label', { ns: 'general' })}</p>
               <p className={gridP2}>sent1jqd5s...axu6c</p>
             </div>
             <div className="flex flex-col items-start pl-20 ">
-              <p className={gridP1}>{t('general:upload_speed_label')}</p>
+              <p className={gridP1}>{t('upload_speed_label', { ns: 'general' })}</p>
               <p className={gridP2}>1000 Mbps</p>
             </div>
             <div className="flex flex-col items-start pl-20 ">
-              <p className={gridP1}>{t('general:price_per_gb_label')}</p>
+              <p className={gridP1}>{t('price_per_gb_label', { ns: 'general' })}</p>
               <p className={gridP2}>$5.0</p>
             </div>
           </div>
 
           <div className="grid grid-cols-3 pt-16">
             <div className="flex flex-col items-start pl-10  ">
-              <p className={gridP1}>{t('general:node_type_label')}</p>
+              <p className={gridP1}>{t('node_type_label', { ns: 'general' })}</p>
               <p className={gridP2}>Lorem Ipsum</p>
             </div>
             <div className="flex flex-col items-start pl-20 ">
-              <p className={gridP1}>{t('general:download_speed_label')}</p>
+              <p className={gridP1}>{t('download_speed_label', { ns: 'general' })}</p>
               <p className={gridP2}>1000 Mbps</p>
             </div>
           </div>
         </div>
 
         <InstanceInfo
-          div1Heading={t('general:uptime_label')}
+          div1Heading={t('uptime_label', { ns: 'general' })}
           div1SubHeading={+12.21}
           div1Text="99 %"
-          div2Heading={t('general:unused_bandwidth_label')}
+          div2Heading={t('unused_bandwidth_label', { ns: 'general' })}
           div2SubHeading={-2.21}
           div2Text="35 GB"
-          div3Heading={t('general:longest_session_label')}
+          div3Heading={t('longest_session_label', { ns: 'general' })}
           div3SubHeading={-2.21}
           div3Text="12h : 31m : 2s"
         />
@@ -63,7 +63,7 @@ export const InstancePage = () => {
           <div className={boxStyle}>
             <div className="flex flex-row pb-8  ">
               <p className="basis-11/12 text-[20px] font-medium text-[#808080]">
-                {t('general:total_earnings_label')}
+                {t('total_earnings_label', { ns: 'general' })}
               </p>
               <p className="basis-1/12 text-[16px] font-medium text-[#70BF86]">+12.21%</p>
             </div>
@@ -75,7 +75,8 @@ export const InstancePage = () => {
           <div className={boxStyle}>
             <div className="flex flex-row pb-8">
               <p className=" mr-[1.5px]  pr-1 text-[20px] font-medium text-[#808080] ">
-                {t('general:active_subscription_label')} <span className="px-14 text-[#0F131A] " />
+                {t('active_subscription_label', { ns: 'general' })}{' '}
+                <span className="px-14 text-[#0F131A] " />
               </p>
               <p className=" pt-1 text-[16px] font-medium text-[#DA1C2C]">-2.21%</p>
             </div>
@@ -85,7 +86,7 @@ export const InstancePage = () => {
           <div className={boxStyle}>
             <div className="flex flex-row pb-8">
               <p className="basis-10/12 text-[20px] font-medium text-[#808080]">
-                {t('general:active_session_label')}
+                {t('active_session_label', { ns: 'general' })}
               </p>
               <p className="basis-1/12 text-[16px] font-medium text-[#DA1C2C]">-2.21%</p>
             </div>

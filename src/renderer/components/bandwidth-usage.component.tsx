@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useTranslation } from 'react-i18next';
-import { InstanceInfo } from './instance-info.component';
 import { ChartData } from './chart.component';
+import { InstanceInfo } from './instance-info.component';
 import { TempNavBar } from './temp-navbar.component';
 
 export const BandwidthUsage = () => {
@@ -15,18 +15,18 @@ export const BandwidthUsage = () => {
           {t('subscription_history_label')}
         </p>
         <InstanceInfo
-          div1Heading={t('general:total_bandwidth_consumed_label')}
+          div1Heading={t('total_bandwidth_consumed_label', { ns: 'general' })}
           div1SubHeading={+12.21}
           div1Text="10 Mbps"
-          div2Heading={t('general:unused_bandwidth_label')}
+          div2Heading={t('unused_bandwidth_label', { ns: 'general' })}
           div2SubHeading={0}
           div2Text="100 GB"
-          div3Heading={t('general:average_usage_per_day_label')}
+          div3Heading={t('average_usage_per_day_label', { ns: 'general' })}
           div3SubHeading={-2.21}
           div3Text="12h : 31m : 2s"
         />
         <ChartData
-          heading={t('general:bandwidth_usage_label')}
+          heading={t('bandwidth_usage_label', { ns: 'general' })}
           type={1}
         />
       </div>

@@ -1,9 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useTranslation } from 'react-i18next';
-import { InstanceInfo } from './instance-info.component';
 import { ChartData } from './chart.component';
-import { TempNavBar } from './temp-navbar.component';
+import { InstanceInfo } from './instance-info.component';
 import { NodeUsed } from './node-used.component';
+import { TempNavBar } from './temp-navbar.component';
 
 export const SubscriptionHistory = () => {
   const { t } = useTranslation();
@@ -13,42 +13,42 @@ export const SubscriptionHistory = () => {
       <TempNavBar />
       <div className="m-10 w-fit text-white lg:m-0 lg:px-20">
         <p className="text-[36px] font-semibold leading-[36px]">
-          {t('general:subscription_history_label')}
+          {t('subscription_history_label', { ns: 'general' })}
         </p>
         <InstanceInfo
-          div1Heading={t('general:active_subscription_label')}
+          div1Heading={t('active_subscription_label', { ns: 'general' })}
           div1SubHeading={+12.21}
           div1Text="10 H"
-          div2Heading={t('general:total_subscription_label')}
+          div2Heading={t('total_subscription_label', { ns: 'general' })}
           div2SubHeading={-2.21}
           div2Text="100 h"
-          div3Heading={t('general:highest_cost_subscription_label')}
+          div3Heading={t('highest_cost_subscription_label', { ns: 'general' })}
           div3SubHeading={-2.21}
           div3Text="12h : 31m : 2s"
         />
 
         <ChartData
-          heading={t('general:bandwidth_usage_label')}
+          heading={t('bandwidth_usage_label', { ns: 'general' })}
           type={2}
         />
 
         <div className="mt-7 w-fit rounded-2xl border-2 border-[#171d28] bg-[#0F131A] ">
           <p className="p-8 text-[28px] font-semibold ">
-            {t('general:subscription_history_label')}
+            {t('subscription_history_label', { ns: 'general' })}
           </p>
           <div className="flex flex-row bg-[#161A25]">
             <table>
               <thead>
                 <tr className="min-w-fit text-[16px] text-[#CBCBCB]">
-                  <td className="px-12 py-4">{t('general:date_and_time_label')}</td>
-                  <td className="px-12 py-4">{t('general:cost_label')}</td>
-                  <td className="px-12 py-4">{t('general:data_consumed_label')}</td>
-                  <td className="px-12 py-4">{t('general:data_left_label')}</td>
+                  <td className="px-12 py-4">{t('date_and_time_label', { ns: 'general' })}</td>
+                  <td className="px-12 py-4">{t('cost_label', { ns: 'general' })}</td>
+                  <td className="px-12 py-4">{t('data_consumed_label', { ns: 'general' })}</td>
+                  <td className="px-12 py-4">{t('data_left_label', { ns: 'general' })}</td>
                   <td className="hidden px-12 py-4 lg:table-cell">
-                    {t('general:node_used_label')}
+                    {t('node_used_label', { ns: 'general' })}
                   </td>
                   <td className="hidden py-4 pl-4 lg:table-cell ">
-                    {t('general:location_of_node_label')}
+                    {t('location_of_node_label', { ns: 'general' })}
                   </td>
                 </tr>
               </thead>

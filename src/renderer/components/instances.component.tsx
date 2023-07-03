@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { Container } from 'renderer/common/types';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { Container } from 'renderer/common/types';
 import { InstanceCard } from './instance-card.component';
-import { NewInstance } from './new-instance.component.';
 import { Loading } from './loading.component';
+import { NewInstance } from './new-instance.component.';
 
 export const Instances = () => {
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ export const Instances = () => {
         return containerName.length > 0;
       })
       .map((container) => {
-        return { name: container.slice(10), status: t('general:loading_label') };
+        return { name: container.slice(10), status: t('loading_label', { ns: 'general' }) };
       });
     setContainers(containerNameObjects);
   };
@@ -74,10 +74,10 @@ export const Instances = () => {
             type="button"
             className="z-50 pt-20 text-[96px] text-white"
             onClick={navigateToMainPage}>
-            {t('general:instances_label')}
+            {t('instances_label', { ns: 'general' })}
           </button>
           <div className="text-[40px] font-[400px] leading-[34.5px] text-white">
-            {t('general:launch_a_new_node_label')}
+            {t('launch_a_new_node_label', { ns: 'general' })}
           </div>
         </div>
         <div className="flex justify-center">

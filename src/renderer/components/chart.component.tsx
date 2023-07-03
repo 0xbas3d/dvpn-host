@@ -1,8 +1,8 @@
+import { BarController, BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
 import { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { twJoin } from 'tailwind-merge';
-import { Chart, CategoryScale, LinearScale, BarController, BarElement } from 'chart.js';
 import { useTranslation } from 'react-i18next';
+import { twJoin } from 'tailwind-merge';
 
 Chart.register(CategoryScale, LinearScale, BarController, BarElement);
 
@@ -119,7 +119,7 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
             onClick={() => {
               handleClick('btn1D');
             }}>
-            {t('general:one_day_label')}
+            {t('one_day_label', { ns: 'general' })}
           </button>
           <button
             type="button"
@@ -133,7 +133,7 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
             onClick={() => {
               handleClick('btn1M');
             }}>
-            {t('general:one_month_label')}
+            {t('one_month_label', { ns: 'general' })}
           </button>
           <button
             type="button"
@@ -147,7 +147,7 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
             onClick={() => {
               handleClick('btn1Y');
             }}>
-            {t('general:one_year_label')}
+            {t('one_year_label', { ns: 'general' })}
           </button>
         </div>
       </div>

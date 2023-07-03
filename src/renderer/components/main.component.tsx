@@ -1,6 +1,6 @@
-import { routeConst } from 'renderer/common/types/consts/route-const.common';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { routeConst } from 'renderer/common/types/consts/route-const.common';
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ export const Main = () => {
           <div>
             <img
               className="text-4xl font-extrabold text-white"
-              alt={t('general:sentinel_label')}
+              alt={t('sentinel_label', { ns: 'general' })}
               src="/assets/images/logo.png"
               height={86}
             />
           </div>
           <div className="absolute top-1/2">
             <div className="text-center  text-[80px] font-normal leading-none text-[#F1F2FF]">
-              {t('general:title')}
+              {t('title', { ns: 'general' })}
             </div>
             <div className="mt-[72px] flex justify-center ">
               <button

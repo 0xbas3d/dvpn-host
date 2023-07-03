@@ -1,15 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { ArrowLeftIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Dialog from '@radix-ui/react-dialog';
-import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
 import { routeConst } from 'renderer/common/types/consts/route-const.common';
-import { Loading } from './loading.component';
 import { AddInstanceStepper } from './add-instance-stepper.component';
-import { Setup } from './setup.component';
 import { AddKey } from './add-key.component';
+import { Loading } from './loading.component';
 import { NodeConfig } from './node-config.component';
+import { Setup } from './setup.component';
 
 export const AddInstance = () => {
   const navigate = useNavigate();
@@ -122,7 +122,9 @@ export const AddInstance = () => {
                   type="button"
                   className="cursor-pointer rounded-full border border-[#1F5EFF] px-7 py-4 text-2xl font-medium text-text-color hover:bg-[#1F5EFF]"
                   onClick={addInstance}>
-                  {step === 2 ? t('setup:next_label') : t('setup:submit_label')}
+                  {step === 2
+                    ? t('next_label', { ns: 'setup' })
+                    : t('submit_label', { ns: 'setup' })}
                 </button>
               )}
             </div>
@@ -144,26 +146,27 @@ export const AddInstance = () => {
           <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black opacity-50" />
           <Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] z-[9999] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-[#2226af] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
             <Dialog.Title className="m-0 text-xl font-medium text-white">
-              {t('setup:wallet_credentials')}
+              {t('wallet_credentials', { ns: 'setup' })}
             </Dialog.Title>
             <Dialog.Description className="mb-5 mt-[10px] text-[15px] leading-normal text-white">
-              *{t('setup:node_warning_one')} <br /> * {t('setup:node_warning_two')}
+              *{t('node_warning_one', { ns: 'setup' })} <br /> *{' '}
+              {t('node_warning_two', { ns: 'setup' })}
             </Dialog.Description>
             <div className="mt-4 flex gap-2 text-white">
               <span className="text-violet11 w-[90px] basis-[12%] text-right text-[15px]">
-                {t('setup:mnemonic_label')}:
+                {t('mnemonic_label', { ns: 'setup' })}:
               </span>
               <div className="basis-[88%]">{walletInfo.mnemonic}</div>
             </div>
             <div className="flex gap-2 text-white">
               <span className="text-violet11 w-[90px] basis-[12%] text-right text-[15px]">
-                {t('setup:address_label')}:
+                {t('address_label', { ns: 'setup' })}:
               </span>
               <div className="basis-[88%]">{walletInfo.address}</div>
             </div>
             <div className="flex gap-2 text-white">
               <span className="text-violet11 w-[90px] basis-[12%] text-right text-[15px]">
-                {t('setup:operator_label')}:
+                {t('operator_label', { ns: 'setup' })}:
               </span>
               <div className="basis-[88%]">{walletInfo.operator}</div>
             </div>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type NodeUsedProps = {
@@ -12,7 +11,9 @@ export const NodeUsed = ({ type }: NodeUsedProps) => {
     case 'V2Ray':
       content = (
         <td className="hidden py-4 pl-10 pr-20 text-white lg:table-cell">
-          <p className="flex justify-center bg-[#7c99e2] p-2">{t('general:v2ray_label')}</p>
+          <p className="flex justify-center bg-[#7c99e2] p-2">
+            {t('v2ray_label', { ns: 'general' })}
+          </p>
         </td>
       );
       break;
@@ -20,7 +21,9 @@ export const NodeUsed = ({ type }: NodeUsedProps) => {
     case 'Wireguard':
       content = (
         <td className="hidden py-4 pl-10 pr-20 text-white lg:table-cell">
-          <p className="flex justify-center bg-[#1F5EFF] p-2">{t('general:wireguard_label')}</p>
+          <p className="flex justify-center bg-[#1F5EFF] p-2">
+            {t('wireguard_label', { ns: 'general' })}
+          </p>
         </td>
       );
       break;
@@ -29,7 +32,7 @@ export const NodeUsed = ({ type }: NodeUsedProps) => {
       content = (
         <td className="hidden py-4 pl-10 pr-20 text-white lg:table-cell">
           <p className="flex justify-center bg-white p-2 text-[#91b0ff]">
-            {t('general:openvpn_label')}
+            {t('openvpn_label', { ns: 'general' })}
           </p>
         </td>
       );
