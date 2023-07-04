@@ -12,6 +12,7 @@
   "details_label": "Details",
   "start_label": "Start",
   "stop_label": "Stop",
+  "stop_node_label": "Stop Node",
   "enter_password_label": "Enter Password",
   "loading_label": "Loading",
   "add_new_label": "Add New",

@@ -11,7 +11,7 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
   const [importKey, setImportKey] = useState(false);
   const { t } = useTranslation();
   return (
-    <div className="z-50 flex flex-col items-center">
+    <div className="z-50 flex h-full flex-col items-center justify-center gap-8">
       <div className="flex min-w-[350px] flex-col gap-8">
         <div className="flex w-full justify-between">
           <div className="text-2xl font-medium text-text-color">

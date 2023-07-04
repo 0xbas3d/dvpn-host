@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { routeConst } from 'renderer/common/types/consts/route-const.common';
+import plus from '../assets/images/plus.png';
 
 export const NewInstance = () => {
   const { t } = useTranslation();
@@ -14,10 +15,10 @@ export const NewInstance = () => {
     <button
       type="button"
       onClick={handleAddNewInstance}
-      className="flex min-w-[401px] flex-col justify-center rounded-[16px] border border-[#192a37] bg-black text-white">
+      className="flex min-w-[401px] flex-col justify-center rounded-[16px] border border-[#192a37] bg-black py-12 text-white">
       <img
         alt="plus"
-        src="/assets/images/plus.png"
+        src={plus}
         className="mx-auto"
       />
       <span className="mt-10 w-full text-[22px] font-medium text-text-color">

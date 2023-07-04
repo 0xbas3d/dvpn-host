@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { routeConst } from 'renderer/common/types/consts/route-const.common';
+import logo from '../assets/images/logo.png';
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export const Main = () => {
             <img
               className="text-4xl font-extrabold text-white"
               alt={t('sentinel_label', { ns: 'general' })}
-              src="/assets/images/logo.png"
+              src={logo}
               height={86}
             />
           </div>

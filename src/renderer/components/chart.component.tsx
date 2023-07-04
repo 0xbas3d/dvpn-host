@@ -107,8 +107,8 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
   };
 
   return (
-    <div className="mt-7 justify-center rounded-2xl border-2 border-[#171d28] bg-[#0F131A] lg:w-full ">
-      <div className=" flex flex-row p-7 ">
+    <div className="mt-7 justify-center rounded-2xl border-2 border-[#171d28] bg-[#0F131A]">
+      <div className="flex flex-row p-7 ">
         <p className="basis-3/6 text-[28px] font-semibold  lg:basis-[80%] ">{heading}</p>
         <div className="pl-16 text-[16px] font-normal">
           <button

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
 import { routeConst } from 'renderer/common/types/consts/route-const.common';
-import { AddInstanceStepper } from './add-instance-stepper.component';
 import { AddKey } from './add-key.component';
 import { Loading } from './loading.component';
 import { NodeConfig } from './node-config.component';
@@ -28,23 +27,6 @@ export const AddInstance = () => {
     mnemonic: '',
   });
   const { t } = useTranslation();
-
-  const getDefaultConfig = async () => {
-    const configResponse = (await window.electron.ipcRenderer.default()).split('\n');
-    const defaultConfig: { [key: string]: string } = {};
-    for (let i = 0; i < configResponse.length - 1; i += 1) {
-      const split = configResponse[i].split('=');
-      const [configKey, configValue] = split;
-      defaultConfig[configKey] = configValue;
-      if (i === configResponse.length - 2) setConfig(defaultConfig);
-    }
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    getDefaultConfig();
-    setLoading(false);
-  }, []);
 
   const next = () => {
     setStep((prevStep) => {
@@ -85,12 +67,11 @@ export const AddInstance = () => {
 
   if (loading) return <Loading />;
   return (
-    <div className="h-[1px] min-h-[100vh] w-full bg-background-color">
-      <div className="fixed left-0 top-0 h-full w-full bg-[url('../assets/images/main-bg.png')] bg-no-repeat mix-blend-color-dodge blur-[300px]" />
+    <div className="h-[1px] min-h-[100vh] w-full bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat">
+      {/* <div className="fixed left-0 top-0 h-full w-full   mix-blend-color-dodge blur-[300px]" /> */}
       <div className="h-full w-full overflow-auto">
         <div className="flex h-full justify-center py-12">
           <div className="basis flex basis-[90%] flex-col justify-between gap-8">
-            <AddInstanceStepper />
             {step === 1 && (
               <Setup
                 next={next}
@@ -144,7 +125,7 @@ export const AddInstance = () => {
         }}>
         <Dialog.Portal>
           <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black opacity-50" />
-          <Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] z-[9999] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-[#2226af] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+          <Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] z-[9999] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-[#090A13] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
             <Dialog.Title className="m-0 text-xl font-medium text-white">
               {t('wallet_credentials', { ns: 'setup' })}
             </Dialog.Title>

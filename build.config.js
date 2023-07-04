@@ -53,5 +53,10 @@ module.exports = {
       to: 'scripts',
       filter: ['**/*'],
     },
+    {
+      from: 'public',
+      to: 'public',
+      filter: ['**/*'],
+    },
   ],
 };

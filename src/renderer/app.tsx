@@ -12,6 +12,7 @@ import { SessionHistory } from './components/session-history.component';
 import './setup';
 
 import './assets/app.css';
+import { EditNodeConfig } from './components/edit-node-config.component';
 
 export const App = () => {
   return (
@@ -48,6 +49,10 @@ export const App = () => {
         <Route
           path="/bandwidth-usage/:name"
           element={<BandwidthUsage />}
+        />
+        <Route
+          path="/edit-node-config/:name"
+          element={<EditNodeConfig />}
         />
       </Routes>
     </Router>
