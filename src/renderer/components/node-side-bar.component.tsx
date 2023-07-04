@@ -37,6 +37,10 @@ export const NodeSideBar = () => {
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
+
+  const handleNavigateToInstances = () => {
+    return navigate(routeConst.instances);
+  };
   const infoButtons: InfoButton[] = [
     {
       name: t('node_overview_label', { ns: 'general' }),
@@ -77,9 +81,7 @@ export const NodeSideBar = () => {
           width={42}
           height={32}
           className="cursor-pointer fill-white"
-          onClick={() => {
-            return navigate(routeConst.instances);
-          }}
+          onClick={handleNavigateToInstances}
         />
         <span className="text-[32px] font-semibold text-white">{params.name}</span>
       </div>
