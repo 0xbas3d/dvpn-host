@@ -1,6 +1,6 @@
 {
   "name": "dvpn",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "homepage": "https://sentinel.co/",
   "author": "Sentinel",
   "main": "./src/main/main.ts",
