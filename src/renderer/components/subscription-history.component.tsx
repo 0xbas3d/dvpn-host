@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { ChartData } from './chart.component';
 import { InstanceInfo } from './instance-info.component';
 import { NodeUsed } from './node-used.component';
-import { NodeSideBar } from './node-side-bar.component';
 import { InstanceGeneralLayout } from './instance-general-layout.component';
 
 export const SubscriptionHistory = () => {

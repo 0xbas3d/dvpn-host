@@ -1,6 +1,6 @@
 import { ArrowLeftIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import * as Dialog from '@radix-ui/react-dialog';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
