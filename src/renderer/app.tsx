@@ -4,7 +4,12 @@ import { routeConst } from 'renderer/common/types/consts/route-const.common';
 import { Main } from './components/main.component';
 import { Instances } from './components/instances.component';
 import { AddInstance } from './components/add-instance.component';
-import { InstancePage } from './components/instance-page.component.';
+import { InstancePage } from './components/node-overview.component.';
+import { DvpnEarning } from './components/dvpn-earning.component';
+import { SubscriptionHistory } from './components/subscription-history.component';
+import { BandwidthUsage } from './components/bandwidth-usage.component';
+import { SessionHistory } from './components/session-history.component';
+import './setup';
 
 import './assets/app.css';
 
@@ -27,6 +32,22 @@ export const App = () => {
         <Route
           path="/instance/:name"
           element={<InstancePage />}
+        />
+        <Route
+          path="/earning/:name"
+          element={<DvpnEarning />}
+        />
+        <Route
+          path="/history/session/:name"
+          element={<SessionHistory />}
+        />
+        <Route
+          path="/history/subscription/:name"
+          element={<SubscriptionHistory />}
+        />
+        <Route
+          path="/bandwidth-usage/:name"
+          element={<BandwidthUsage />}
         />
       </Routes>
     </Router>

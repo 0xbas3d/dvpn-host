@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { routeConst } from 'renderer/common/types/consts/route-const.common';
 
 export const NewInstance = () => {
@@ -21,7 +21,7 @@ export const NewInstance = () => {
         className="mx-auto"
       />
       <span className="mt-10 w-full text-[22px] font-medium text-text-color">
-        {t('general:launch_a_new_node_label')}
+        {t('launch_a_new_node_label', { ns: 'general' })}
       </span>
     </button>
   );

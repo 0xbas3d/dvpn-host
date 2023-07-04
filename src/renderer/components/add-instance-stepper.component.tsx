@@ -17,9 +17,15 @@ export const AddInstanceStepper = () => {
         })}
       </div>
       <div className="mt-8 flex w-full justify-between">
-        <div className="text-2xl font-medium text-text-color">{t('setup:setup_dependencies')}</div>
-        <div className="text-2xl font-medium text-text-color">{t('setup:node_configuration')}</div>
-        <div className="text-2xl font-medium text-text-color">{t('setup:key_creation_import')}</div>
+        <div className="text-2xl font-medium text-text-color">
+          {t('setup_dependencies', { ns: 'setup' })}
+        </div>
+        <div className="text-2xl font-medium text-text-color">
+          {t('node_configuration', { ns: 'setup' })}
+        </div>
+        <div className="text-2xl font-medium text-text-color">
+          {t('key_creation_import', { ns: 'setup' })}
+        </div>
       </div>
     </div>
   );
