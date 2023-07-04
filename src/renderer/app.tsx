@@ -34,7 +34,7 @@ export const App = () => {
           element={<InstancePage />}
         />
         <Route
-          path="/earnings/:name"
+          path="/earning/:name"
           element={<DvpnEarning />}
         />
         <Route

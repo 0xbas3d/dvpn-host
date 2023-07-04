@@ -8,7 +8,7 @@ export const routeConst = {
     return [routeConst.instances, instanceName].join('/');
   },
   earning: (instanceName: string) => {
-    return ['/earnings', instanceName].join('/');
+    return ['/earning', instanceName].join('/');
   },
   sessionHistory: (instanceName: string) => {
     return ['/history/session', instanceName].join('/');
