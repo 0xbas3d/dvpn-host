@@ -1,6 +1,6 @@
-import { SetStateAction, useState, Dispatch } from 'react';
-import { KeyConfigType } from 'renderer/common/types';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { KeyConfigType } from 'renderer/common/types';
 
 export type AddKeyProps = {
   keyConfig: KeyConfigType;
@@ -14,7 +14,9 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
     <div className="z-50 flex flex-col items-center">
       <div className="flex min-w-[350px] flex-col gap-8">
         <div className="flex w-full justify-between">
-          <div className="text-2xl font-medium text-text-color">{t('setup:import_key')}</div>
+          <div className="text-2xl font-medium text-text-color">
+            {t('import_key', { ns: 'setup' })}
+          </div>
           <div className="flex gap-5">
             <div className="flex items-center">
               <button
@@ -25,7 +27,7 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
                 }}>
                 {importKey && <div className="h-full w-full rounded-full bg-[#1F5EFF]" />}
               </button>
-              <div className="ml-2 text-lg text-text-color">{t('general:yes')}</div>
+              <div className="ml-2 text-lg text-text-color">{t('yes', { ns: 'general' })}</div>
             </div>
             <div className="flex items-center">
               <button
@@ -39,13 +41,15 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
                 }}>
                 {!importKey && <div className="h-full w-full rounded-full bg-[#1F5EFF]" />}
               </button>
-              <div className="ml-2 text-lg text-text-color">{t('general:no')}</div>
+              <div className="ml-2 text-lg text-text-color">{t('no', { ns: 'general' })}</div>
             </div>
           </div>
         </div>
         {importKey && (
           <div>
-            <div className="text-2xl font-medium text-text-color">{t('setup:mnemonic_label')}</div>
+            <div className="text-2xl font-medium text-text-color">
+              {t('mnemonic_label', { ns: 'setup' })}
+            </div>
             <div className="mt-2 w-full rounded-lg bg-[#1E2148] px-5 py-3">
               <input
                 type="text"
@@ -61,7 +65,9 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
           </div>
         )}
         <div>
-          <div className="text-2xl font-medium text-text-color">{t('setup:passphrase_label')}</div>
+          <div className="text-2xl font-medium text-text-color">
+            {t('passphrase_label', { ns: 'setup' })}
+          </div>
           <div className="mt-2 w-full rounded-lg bg-[#1E2148] px-5 py-3">
             <input
               type="password"
