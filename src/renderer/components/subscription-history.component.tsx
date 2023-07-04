@@ -34,7 +34,7 @@ export const SubscriptionHistory = () => {
 
         <ChartData
           heading={t('bandwidth_usage_label', { ns: 'general' })}
-          type="2"
+          type="small"
         />
 
         <div className="mt-7 w-fit rounded-2xl border-2 border-[#171d28] bg-[#0F131A] ">

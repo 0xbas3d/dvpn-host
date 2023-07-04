@@ -2,24 +2,23 @@ import { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import { twJoin } from 'tailwind-merge';
-import './setup';
 
-enum ButtonId {
-  Btn1D = 'btn1D',
-  Btn1M = 'btn1M',
-  Btn1Y = 'btn1Y',
+enum ButtonType {
+  ONE_DAY,
+  ONE_MONTH,
+  ONE_YEAR,
 }
 
 export type ChartDataProps = {
   heading: string;
-  type: '1' | '2';
+  type: 'large' | 'small';
 };
 
 export const ChartData = ({ heading, type }: ChartDataProps) => {
   const { t } = useTranslation();
-  const [selectedButton, setSelectedButton] = useState(ButtonId.Btn1M);
+  const [selectedButton, setSelectedButton] = useState(ButtonType.ONE_DAY);
 
-  const handleClick = (buttonId: ButtonId) => {
+  const handleClick = (buttonId: ButtonType) => {
     setSelectedButton(buttonId);
   };
 
@@ -53,11 +52,11 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
 
   let labels;
 
-  if (selectedButton === 'btn1Y') {
+  if (selectedButton === ButtonType.ONE_YEAR) {
     labels = monthNames.map(String);
-  } else if (selectedButton === 'btn1M') {
+  } else if (selectedButton === ButtonType.ONE_MONTH) {
     labels = monthDays.map(String);
-  } else if (selectedButton === 'btn1D') {
+  } else if (selectedButton === ButtonType.ONE_DAY) {
     labels = days.map(String);
   }
 
@@ -116,12 +115,12 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
             type="button"
             className={twJoin([
               'mx-2 p-[6px] leading-[15.85px]',
-              selectedButton === 'btn1D'
+              selectedButton === ButtonType.ONE_DAY
                 ? 'bg-[#1F5EFF] font-extrabold'
                 : 'bg-[#211E28] font-normal',
             ])}
             onClick={() => {
-              handleClick(ButtonId.Btn1D);
+              handleClick(ButtonType.ONE_DAY);
             }}>
             {t('1d_label', { ns: 'general' })}
           </button>
@@ -129,12 +128,12 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
             type="button"
             className={twJoin([
               'mx-2 p-[6px] leading-[15.85px]',
-              selectedButton === 'btn1M'
+              selectedButton === ButtonType.ONE_MONTH
                 ? 'bg-[#1F5EFF] font-extrabold'
                 : 'bg-[#211E28] font-normal',
             ])}
             onClick={() => {
-              handleClick(ButtonId.Btn1M);
+              handleClick(ButtonType.ONE_MONTH);
             }}>
             {t('1m_label', { ns: 'general' })}
           </button>
@@ -142,18 +141,18 @@ export const ChartData = ({ heading, type }: ChartDataProps) => {
             type="button"
             className={twJoin([
               'mx-2 p-[6px] leading-[15.85px]',
-              selectedButton === 'btn1Y'
+              selectedButton === ButtonType.ONE_YEAR
                 ? ' bg-[#1F5EFF] font-extrabold'
                 : 'bg-[#211E28] font-normal',
             ])}
             onClick={() => {
-              handleClick(ButtonId.Btn1Y);
+              handleClick(ButtonType.ONE_YEAR);
             }}>
             {t('1y_label', { ns: 'general' })}
           </button>
         </div>
       </div>
-      <div className={twJoin(['mx-6 py-2', type === '1' ? 'h-[450px]' : 'h-[209px]'])}>
+      <div className={twJoin(['mx-6 py-2', type === 'large' ? 'h-[450px]' : 'h-[209px]'])}>
         <Bar
           data={data}
           options={options}

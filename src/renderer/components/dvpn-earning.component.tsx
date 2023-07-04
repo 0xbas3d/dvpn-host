@@ -32,7 +32,7 @@ export const DvpnEarning = () => {
         </div>
         <ChartData
           heading={t('bandwidth_usage_label', { ns: 'general' })}
-          type="1"
+          type="large"
         />
       </div>
     </div>

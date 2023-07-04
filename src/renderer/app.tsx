@@ -9,7 +9,7 @@ import { DvpnEarning } from './components/dvpn-earning.component';
 import { SubscriptionHistory } from './components/subscription-history.component';
 import { BandwidthUsage } from './components/bandwidth-usage.component';
 import { SessionHistory } from './components/session-history.component';
-import './components/setup';
+import './setup';
 
 import './assets/app.css';
 

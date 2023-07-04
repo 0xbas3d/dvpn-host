@@ -14,7 +14,7 @@ export const TempNavBar = () => {
   };
 
   const handleNavigateToDvpnEarnings = () => {
-    navigate(routeConst.earing('name'));
+    navigate(routeConst.earning('name'));
   };
   const handleNavigateToSessionHistory = () => {
     navigate(routeConst.sessionHistory('name'));

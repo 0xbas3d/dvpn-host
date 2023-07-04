@@ -31,7 +31,7 @@ export const Main = () => {
                 type="button"
                 onClick={handleNavigateToInstance}
                 className=" h-fit w-1/4 rounded-[63px] bg-[#1F5EFF] py-5 text-[24px] text-white">
-                {t('start_label')}
+                {t('start_label', { ns: 'general' })}
               </button>
             </div>
           </div>
