@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
-import { routeConst } from 'renderer/common/types/consts/route-const.common';
+import { routeConst } from 'renderer/common/consts/route-const.common';
 import { AddKey } from './add-key.component';
 import { Loading } from './loading.component';
 import { NodeConfig } from './node-config.component';
@@ -40,7 +40,8 @@ export const AddInstance = () => {
   };
 
   const goBack = () => {
-    return step === 1 ? navigate(routeConst.instances) : back();
+    if (step === 1) navigate(routeConst.instances);
+    else back();
   };
 
   const addInstance = async () => {
@@ -57,7 +58,7 @@ export const AddInstance = () => {
         JSON.stringify({ ...keyConfig }),
       ]);
       setLoading(false);
-      if (keyConfig.mnemonic.length > 0) navigate('/instances');
+      if (keyConfig.mnemonic.length > 0) navigate(routeConst.instances);
       else {
         setWalletInfo(JSON.parse(res));
         setOpen(true);
@@ -67,8 +68,7 @@ export const AddInstance = () => {
 
   if (loading) return <Loading />;
   return (
-    <div className="h-[1px] min-h-[100vh] w-full bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat">
-      {/* <div className="fixed left-0 top-0 h-full w-full   mix-blend-color-dodge blur-[300px]" /> */}
+    <div className="h-[1px] min-h-screen w-full bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat">
       <div className="h-full w-full overflow-auto">
         <div className="flex h-full justify-center py-12">
           <div className="basis flex basis-[90%] flex-col justify-between gap-8">

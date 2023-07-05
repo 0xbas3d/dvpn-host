@@ -1,4 +1,4 @@
-import { routeConst } from 'renderer/common/types/consts/route-const.common';
+import { routeConst } from 'renderer/common/consts/route-const.common';
 import { twJoin } from 'tailwind-merge';
 import {
   ChevronRightIcon,
@@ -38,39 +38,41 @@ export const NodeSideBar = () => {
   const params = useParams();
   const location = useLocation();
 
+  const instanceName = params.name ? params.name : '';
+
   const handleNavigateToInstances = () => {
-    return navigate(routeConst.instances);
+    navigate(routeConst.instances);
   };
   const infoButtons: InfoButton[] = [
     {
       name: t('node_overview_label', { ns: 'general' }),
       icon: CpuChipIcon,
-      link: `${routeConst.instances}/${params.name}`,
+      link: routeConst.instanceOverview(instanceName),
     },
     {
       name: t('dvpn_earnings_label', { ns: 'general' }),
       icon: CircleStackIcon,
-      link: `${routeConst.earning}/${params.name}`,
+      link: routeConst.instanceEarning(instanceName),
     },
     {
       name: t('session_history_label', { ns: 'general' }),
       icon: ClockIcon,
-      link: `${routeConst.sessionHistory}/${params.name}`,
+      link: routeConst.instanceSessionHistory(instanceName),
     },
     {
       name: t('subscription_history_label', { ns: 'general' }),
       icon: ChatBubbleBottomCenterIcon,
-      link: `${routeConst.subscriptionHistory}/${params.name}`,
+      link: routeConst.instanceSubscriptionHistory(instanceName),
     },
     {
       name: t('bandwidth_usage_label', { ns: 'general' }),
       icon: StopCircleIcon,
-      link: `${routeConst.bandwidthUsage}/${params.name}`,
+      link: routeConst.instanceBandwidthUsage(instanceName),
     },
     {
       name: t('edit_node_configuration_label', { ns: 'general' }),
       icon: CpuChipIcon,
-      link: `${routeConst.editNodeConfig}/${params.name}`,
+      link: routeConst.instanceEditNodeConfig(instanceName),
     },
   ];
 
@@ -83,7 +85,7 @@ export const NodeSideBar = () => {
           className="cursor-pointer fill-white"
           onClick={handleNavigateToInstances}
         />
-        <span className="text-[32px] font-semibold text-white">{params.name}</span>
+        <span className="text-[32px] font-semibold text-white">{instanceName}</span>
       </div>
       <div className="rounded-lg border-2 border-[#181a28] bg-[#0e1018] p-6 text-text-color">
         <span className="text-xl">
@@ -113,7 +115,7 @@ export const NodeSideBar = () => {
                     : 'group border-[#181a28] text-[#808080] hover:cursor-pointer',
                 )}
                 onClick={() => {
-                  return navigate(button.link);
+                  navigate(button.link);
                 }}>
                 <StyledIcon
                   icon={button.icon}

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { twJoin } from 'tailwind-merge';
+import { STATUS } from 'renderer/common/enums';
 import { StartNodeDialog } from './start-node-dialog.component';
 import logo from '../assets/images/logo.png';
 
@@ -16,8 +17,8 @@ export const NodeTopBar = () => {
     setStatus(res);
   };
 
-  const stopContainer = async (containerName: string) => {
-    await window.electron.ipcRenderer.run([containerName, 'stop']);
+  const stopContainer = (containerName: string) => {
+    window.electron.ipcRenderer.run([containerName, 'stop']);
   };
 
   useEffect(() => {
@@ -31,6 +32,11 @@ export const NodeTopBar = () => {
       };
     }
   }, [params]);
+
+  const handleStartStopNode = () => {
+    if (status !== STATUS.RUNNING) setOpenPassword(true);
+    else if (params && params.name) stopContainer(params.name);
+  };
 
   return (
     <div className="flex px-[59px] py-[35px]">
@@ -48,15 +54,14 @@ export const NodeTopBar = () => {
         </span>
         <button
           type="button"
-          onClick={() => {
-            if (status !== 'Running') setOpenPassword(true);
-            else if (params && params.name) stopContainer(params.name);
-          }}
+          onClick={handleStartStopNode}
           className={twJoin(
             'z-50 flex h-2/3 cursor-pointer items-center rounded-md  px-10 py-6 text-2xl font-semibold text-text-color',
-            status === 'Running' ? 'bg-[#b11a28]' : 'bg-[#007842]',
+            status === STATUS.RUNNING ? 'bg-[#b11a28]' : 'bg-[#007842]',
           )}>
-          {status !== 'Running' ? t('start_node_label', { ns: 'general' }) : t('stop_node_label')}
+          {status !== STATUS.RUNNING
+            ? t('start_node_label', { ns: 'general' })
+            : t('stop_node_label', { ns: 'general' })}
         </button>
       </div>
       <StartNodeDialog

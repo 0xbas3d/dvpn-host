@@ -28,10 +28,8 @@ const INSTALL_SCRIPT_PATH = app.isPackaged
 ipcMain.handle('install', async () => {
   try {
     const output = await sudoExec(`bash ${INSTALL_SCRIPT_PATH}`, options);
-    console.log(output);
     return output;
   } catch (err: any) {
-    console.log(err);
     if (err.stdout) return err.stdout;
     if (err.stderr) return err.stderr;
   }
@@ -117,7 +115,6 @@ ipcMain.handle('run', async (_, data) => {
       return stdout;
     }
   } catch (err: any) {
-    console.log(err);
     if (err.stdout) return err.stdout;
     if (err.stderr) return err.stderr;
   }

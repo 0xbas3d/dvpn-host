@@ -1,4 +1,4 @@
-import { Dispatch, DispatchWithoutAction, SetStateAction } from 'react';
+import { Dispatch, DispatchWithoutAction, SetStateAction, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type SetupProps = {
@@ -23,6 +23,10 @@ export const Setup = ({ containerName, setContainerName, next, setLoading }: Set
     }
   };
 
+  const handleSetContainerName = (e: ChangeEvent<HTMLInputElement>) => {
+    setContainerName(e.target.value);
+  };
+
   return (
     <div className="z-50 flex h-full flex-col items-center justify-center gap-8">
       <div>
@@ -33,9 +37,7 @@ export const Setup = ({ containerName, setContainerName, next, setLoading }: Set
           <input
             type="text"
             value={containerName}
-            onChange={(e) => {
-              return setContainerName(e.target.value);
-            }}
+            onChange={handleSetContainerName}
             className="w-full bg-transparent text-lg text-text-color focus:outline-none"
           />
         </div>

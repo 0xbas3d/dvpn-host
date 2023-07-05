@@ -1,10 +1,9 @@
-import React from 'react';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import { routeConst } from 'renderer/common/types/consts/route-const.common';
+import { routeConst } from 'renderer/common/consts/route-const.common';
 import { Main } from './components/main.component';
 import { Instances } from './components/instances.component';
 import { AddInstance } from './components/add-instance.component';
-import { InstancePage } from './components/node-overview.component.';
+import { InstancePage } from './components/node-overview.component';
 import { DvpnEarning } from './components/dvpn-earning.component';
 import { SubscriptionHistory } from './components/subscription-history.component';
 import { BandwidthUsage } from './components/bandwidth-usage.component';

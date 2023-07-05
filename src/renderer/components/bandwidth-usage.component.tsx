@@ -8,7 +8,9 @@ export const BandwidthUsage = () => {
   return (
     <InstanceGeneralLayout>
       <div className="w-fit text-white">
-        <p className="text-[36px] font-semibold leading-[36px]">{t('bandwidth_usage_label')}</p>
+        <p className="text-[36px] font-semibold leading-[36px]">
+          {t('bandwidth_usage_label', { ns: 'general' })}
+        </p>
         <div className="grid grid-cols-2 lg:w-full lg:grid-cols-3">
           <InstanceInfo
             heading={t('total_bandwidth_consumed_label', { ns: 'general' })}

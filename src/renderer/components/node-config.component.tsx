@@ -38,12 +38,12 @@ export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
   const getDefaultConfig = async () => {
     const configResponse = (await window.electron.ipcRenderer.default()).split('\n');
     const defaultConfig: { [key: string]: string } = {};
-    for (let i = 0; i < configResponse.length - 1; i += 1) {
-      const split = configResponse[i].split('=');
+    configResponse.slice(0, -1).forEach((response: string, index: number) => {
+      const split = response.split('=');
       const [configKey, configValue] = split;
       defaultConfig[configKey] = configValue;
-      if (i === configResponse.length - 2) setConfig(defaultConfig);
-    }
+      if (index === configResponse.length - 2) setConfig(defaultConfig);
+    });
   };
 
   return (

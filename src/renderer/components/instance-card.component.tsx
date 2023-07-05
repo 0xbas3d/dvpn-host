@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Container } from 'renderer/common/types';
-import { routeConst } from 'renderer/common/types/consts/route-const.common';
+import { routeConst } from 'renderer/common/consts/route-const.common';
 import { twJoin } from 'tailwind-merge';
+import { STATUS } from 'renderer/common/enums';
 import { StartNodeDialog } from './start-node-dialog.component';
 
 export type InstanceCardProps = {
@@ -16,14 +17,14 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
   const [openPassword, setOpenPassword] = useState(false);
 
   const handleNavigateToInstance = () => {
-    navigate(`${routeConst.instances}/${instance.name}`);
+    navigate(routeConst.instanceOverview(instance.name));
   };
 
-  const stopContainer = async () => {
-    if (instance.status !== 'Running') {
+  const stopContainer = () => {
+    if (instance.status !== STATUS.RUNNING) {
       setOpenPassword(true);
     } else {
-      await window.electron.ipcRenderer.run([instance.name, 'stop']);
+      window.electron.ipcRenderer.run([instance.name, 'stop']);
     }
   };
 
@@ -32,11 +33,11 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
       <div
         className={twJoin(
           'flex h-[87px] w-full flex-row items-center justify-center rounded-t-[16px] ',
-          instance.status === 'Running' ? 'bg-[#295e3a]' : 'bg-[#b11a28]',
+          instance.status === STATUS.RUNNING ? 'bg-[#295e3a]' : 'bg-[#b11a28]',
         )}>
         <p className="pr-32 text-[22px]  font-medium">{instance.name}</p>
         <p className="text-[22px] font-medium ">
-          {instance.status === 'Running'
+          {instance.status === STATUS.RUNNING
             ? t('active_label', { ns: 'general' })
             : t('inactive_label', { ns: 'general' })}
         </p>
@@ -57,7 +58,7 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
           type="button"
           className="px-8"
           onClick={stopContainer}>
-          {instance.status === 'Running'
+          {instance.status === STATUS.RUNNING
             ? t('stop_label', { ns: 'general' })
             : t('start_label', { ns: 'general' })}
         </button>

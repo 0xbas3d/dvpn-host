@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { routeConst } from 'renderer/common/types/consts/route-const.common';
+import { routeConst } from 'renderer/common/consts/route-const.common';
 import logo from '../assets/images/logo.png';
 
 export const Main = () => {
@@ -11,12 +11,12 @@ export const Main = () => {
     navigate(routeConst.instances);
   };
 
-  const handleInstallDependencies = async () => {
-    await window.electron.ipcRenderer.install();
+  const handleInstallDependencies = () => {
+    window.electron.ipcRenderer.install();
   };
 
   return (
-    <div className="min-h-[100vh]  w-full bg-[#090A13] bg-[url('./images/page-bg.png')] bg-cover bg-center  bg-no-repeat  p-0   bg-blend-difference">
+    <div className="min-h-screen  w-full bg-[#090A13] bg-[url('./images/page-bg.png')] bg-cover bg-center  bg-no-repeat  p-0   bg-blend-difference">
       <div className="fixed  bottom-10 left-[140px] h-full w-full   bg-[url('./images/hero.png')] ">
         <div className="absolute top-20  w-full  pb-[300px] pt-16 ">
           <div>
@@ -42,7 +42,7 @@ export const Main = () => {
                 type="button"
                 onClick={handleInstallDependencies}
                 className=" h-fit w-1/4 rounded-[63px] bg-[#1F5EFF] py-5 text-[24px] text-white">
-                {t('install_label')}
+                {t('install_label', { ns: 'general' })}
               </button>
             </div>
           </div>

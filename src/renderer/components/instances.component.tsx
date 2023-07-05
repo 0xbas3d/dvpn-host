@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container } from 'renderer/common/types';
 import { InstanceCard } from './instance-card.component';
 import { Loading } from './loading.component';
-import { NewInstance } from './new-instance.component.';
+import { NewInstance } from './new-instance.component';
 
 export const Instances = () => {
   const { t } = useTranslation();
@@ -67,7 +67,7 @@ export const Instances = () => {
 
   if (loading) return <Loading />;
   return (
-    <div className="min-h-[100vh] w-full bg-[#090A13] bg-[url('./images/page-bg.png')]  bg-cover  bg-center bg-no-repeat p-0 bg-blend-difference">
+    <div className="min-h-screen w-full bg-[#090A13] bg-[url('./images/page-bg.png')]  bg-cover  bg-center bg-no-repeat p-0 bg-blend-difference">
       <div className="basis-[88%]">
         <div className="flex flex-col items-center justify-center">
           <button
