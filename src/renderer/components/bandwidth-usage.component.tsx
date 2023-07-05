@@ -1,17 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { ChartData } from './chart.component';
 import { InstanceInfo } from './instance-info.component';
-import { TempNavBar } from './temp-navbar.component';
+import { InstanceGeneralLayout } from './instance-general-layout.component';
 
 export const BandwidthUsage = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex min-h-[100vh] w-full flex-col bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat  pt-32 lg:flex-row">
-      <TempNavBar />
-
-      <div className="m-10  w-fit text-white lg:m-0 lg:px-20">
+    <InstanceGeneralLayout>
+      <div className="w-fit text-white">
         <p className="text-[36px] font-semibold leading-[36px]">
-          {t('subscription_history_label')}
+          {t('bandwidth_usage_label', { ns: 'general' })}
         </p>
         <div className="grid grid-cols-2 lg:w-full lg:grid-cols-3">
           <InstanceInfo
@@ -35,6 +33,6 @@ export const BandwidthUsage = () => {
           type="large"
         />
       </div>
-    </div>
+    </InstanceGeneralLayout>
   );
 };

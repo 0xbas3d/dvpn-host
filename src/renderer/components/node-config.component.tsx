@@ -35,15 +35,29 @@ export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
     });
   };
 
+  const getDefaultConfig = async () => {
+    const configResponse = (await window.electron.ipcRenderer.default()).split('\n');
+    const defaultConfig: { [key: string]: string } = {};
+    configResponse.slice(0, -1).forEach((response: string, index: number) => {
+      const split = response.split('=');
+      const [configKey, configValue] = split;
+      defaultConfig[configKey] = configValue;
+      if (index === configResponse.length - 2) setConfig(defaultConfig);
+    });
+  };
+
   return (
-    <span className="z-50 flex flex-col items-center bg-[url('./images/bg-effect.png')] bg-contain pb-20">
+    <span className="z-50 flex flex-col items-center bg-contain">
       <span className="flex w-9/12 flex-col items-center justify-center">
         <span className="mt-20 text-center text-4xl font-bold text-text-color">
           {t('node_configuration_label', { ns: 'general' })}
         </span>
-        <span className="z-50 mt-20 flex cursor-pointer items-center justify-between rounded-full bg-[#1F5EFF] px-16 py-5 text-text-color">
+        <button
+          type="button"
+          onClick={getDefaultConfig}
+          className="z-50 mt-20 flex cursor-pointer items-center justify-between rounded-full bg-[#1F5EFF] px-16 py-5 text-text-color">
           <span className="text-3xl font-bold">{t('auto_fill_label', { ns: 'general' })}</span>
-        </span>
+        </button>
         <span className="w-7/12">
           <p className="mt-10 text-center text-xl font-bold text-[#444251]">
             {t('auto_fill_config_with_default_parameters', { ns: 'general' })}
@@ -55,7 +69,7 @@ export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
               if ((config && config!.node_type === 'v2ray') || field !== 'transport') {
                 return (
                   <span
-                    className="lg:grid-col-2 mb-16 ml-5 w-full gap-14 lg:flex"
+                    className="lg:grid-col-2 ml-5 w-full gap-14 lg:flex"
                     key={field}>
                     <span className="w-full lg:w-4/12">
                       <span className="mb-[20px] ml-8 inline-block text-xl font-medium capitalize text-[#808080]">
@@ -67,7 +81,7 @@ export const NodeConfig = ({ config, setConfig }: NodeConfigProps) => {
                         onChange={(e) => {
                           handleSetConfig(e, field);
                         }}
-                        className="w-full rounded-2xl border border-[#1c2030] bg-[#0f0f1b] py-5 text-lg text-text-color focus:outline-none"
+                        className="w-full rounded-2xl border border-[#1c2030] bg-[#0f0f1b] p-5 text-lg text-text-color focus:outline-none"
                       />
                     </span>
                     <span className="w-full lg:mt-0 lg:w-7/12">

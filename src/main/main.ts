@@ -21,6 +21,20 @@ const SCRIPT_PATH = app.isPackaged
   ? path.join(process.resourcesPath, 'scripts/runner.sh')
   : path.join(__dirname, '../../scripts/runner.sh');
 
+const INSTALL_SCRIPT_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, 'scripts/install.sh')
+  : path.join(__dirname, '../../scripts/install.sh');
+
+ipcMain.handle('install', async () => {
+  try {
+    const output = await sudoExec(`bash ${INSTALL_SCRIPT_PATH}`, options);
+    return output;
+  } catch (err: any) {
+    if (err.stdout) return err.stdout;
+    if (err.stderr) return err.stderr;
+  }
+});
+
 ipcMain.handle('custom', async (_, data) => {
   const container = data[0];
   const command = data[1];
@@ -101,7 +115,6 @@ ipcMain.handle('run', async (_, data) => {
       return stdout;
     }
   } catch (err: any) {
-    console.log(err);
     if (err.stdout) return err.stdout;
     if (err.stderr) return err.stderr;
   }

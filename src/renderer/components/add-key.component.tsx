@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyConfigType } from 'renderer/common/types';
 
@@ -10,8 +10,21 @@ export type AddKeyProps = {
 export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
   const [importKey, setImportKey] = useState(false);
   const { t } = useTranslation();
+
+  const handleChangeMnemonic = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyConfig((prev) => {
+      return { ...prev, mnemonic: e.target.value };
+    });
+  };
+
+  const handlePassphraseChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyConfig((prev) => {
+      return { ...prev, passphrase: e.target.value };
+    });
+  };
+
   return (
-    <div className="z-50 flex flex-col items-center">
+    <div className="z-50 flex h-full flex-col items-center justify-center gap-8">
       <div className="flex min-w-[350px] flex-col gap-8">
         <div className="flex w-full justify-between">
           <div className="text-2xl font-medium text-text-color">
@@ -54,11 +67,7 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
               <input
                 type="text"
                 value={keyConfig.mnemonic}
-                onChange={(e) => {
-                  return setKeyConfig((prev) => {
-                    return { ...prev, mnemonic: e.target.value };
-                  });
-                }}
+                onChange={handleChangeMnemonic}
                 className="w-full bg-transparent text-lg text-text-color focus:outline-none"
               />
             </div>
@@ -72,11 +81,7 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
             <input
               type="password"
               value={keyConfig.passphrase}
-              onChange={(e) => {
-                return setKeyConfig((prev) => {
-                  return { ...prev, passphrase: e.target.value };
-                });
-              }}
+              onChange={handlePassphraseChange}
               className="w-full bg-transparent text-lg text-text-color focus:outline-none"
             />
           </div>

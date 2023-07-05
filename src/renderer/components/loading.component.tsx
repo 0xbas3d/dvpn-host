@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 export const Loading = () => {
   const { t } = useTranslation();
   return (
-    <div className="h-[1px] min-h-[100vh] w-full bg-background-color px-48">
-      <div className="fixed left-0 top-0 h-full w-full bg-[url('../assets/images/main-bg.png')] bg-center bg-no-repeat mix-blend-color-dodge blur-[300px]" />
+    <div className="h-[1px] min-h-screen w-full bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat px-48">
       <div className="flex h-full w-full items-center justify-center">
         <div className="flex w-full flex-col justify-center">
           <div className="text-2xl font-medium text-text-color">

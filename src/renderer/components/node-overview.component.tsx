@@ -1,15 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { InstanceInfo } from './instance-info.component';
-import { TempNavBar } from './temp-navbar.component';
+import { InstanceGeneralLayout } from './instance-general-layout.component';
 
 export const InstancePage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex min-h-[100vh] w-full flex-col bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat  pt-32 lg:flex-row">
-      <TempNavBar />
-
-      <div className="m-10  w-full text-white lg:m-0 lg:px-20">
+    <InstanceGeneralLayout>
+      <div className="grow text-white">
         <p className="text-[36px] font-semibold leading-[36px]">
           {t('node_overview_label', { ns: 'general' })}
         </p>
@@ -88,6 +86,6 @@ export const InstancePage = () => {
           />
         </div>
       </div>
-    </div>
+    </InstanceGeneralLayout>
   );
 };

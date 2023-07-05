@@ -1,15 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { InstanceInfo } from './instance-info.component';
 import { ChartData } from './chart.component';
-import { TempNavBar } from './temp-navbar.component';
+import { InstanceGeneralLayout } from './instance-general-layout.component';
 
 export const DvpnEarning = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex min-h-[100vh] w-full flex-col bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat  pt-32 lg:flex-row">
-      <TempNavBar />
-
-      <div className="m-10  w-fit text-white lg:m-0 lg:px-20">
+    <InstanceGeneralLayout>
+      <div className="grow text-white">
         <p className="text-[36px] font-semibold leading-[36px]">
           {t('dvpn_earnings_label', { ns: 'general' })}
         </p>
@@ -35,6 +33,6 @@ export const DvpnEarning = () => {
           type="large"
         />
       </div>
-    </div>
+    </InstanceGeneralLayout>
   );
 };

@@ -33,6 +33,9 @@ const electronHandler = {
     default: () => {
       return ipcRenderer.invoke('default');
     },
+    install: () => {
+      return ipcRenderer.invoke('install');
+    },
   },
 };
 

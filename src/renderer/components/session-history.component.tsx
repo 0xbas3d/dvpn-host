@@ -1,16 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { ChartData } from './chart.component';
 import { InstanceInfo } from './instance-info.component';
-import { TempNavBar } from './temp-navbar.component';
 import { NodeUsed } from './node-used.component';
+import { InstanceGeneralLayout } from './instance-general-layout.component';
 
 export const SessionHistory = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex min-h-[100vh] w-full flex-col bg-[#090A13] bg-[url('./images/bg-effect.png')] bg-cover  bg-center  bg-no-repeat  pt-32 lg:flex-row">
-      <TempNavBar />
-
+    <InstanceGeneralLayout>
       <div className="m-10 w-fit text-white lg:m-0">
         <p className="w-fit text-[36px] font-semibold leading-[36px]">
           {t('session_history_label', { ns: 'general' })}
@@ -83,6 +81,6 @@ export const SessionHistory = () => {
           </div>
         </div>
       </div>
-    </div>
+    </InstanceGeneralLayout>
   );
 };
