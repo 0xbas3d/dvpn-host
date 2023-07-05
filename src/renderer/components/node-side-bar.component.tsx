@@ -38,7 +38,7 @@ export const NodeSideBar = () => {
   const params = useParams();
   const location = useLocation();
 
-  const instanceName = params.name ? params.name : '';
+  const instanceName = params.name ?? '';
 
   const handleNavigateToInstances = () => {
     navigate(routeConst.instances);

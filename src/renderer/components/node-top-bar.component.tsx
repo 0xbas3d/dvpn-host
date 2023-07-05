@@ -2,14 +2,14 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { twJoin } from 'tailwind-merge';
-import { STATUS } from 'renderer/common/enums';
+import { NodeStatus } from 'renderer/common/enums';
 import { StartNodeDialog } from './start-node-dialog.component';
 import logo from '../assets/images/logo.png';
 
 export const NodeTopBar = () => {
   const { t } = useTranslation();
   const [openPassword, setOpenPassword] = useState(false);
-  const [status, setStatus] = useState('Stopped');
+  const [status, setStatus] = useState(NodeStatus.STOPPED);
   const params = useParams();
 
   const updateStatus = async (containerName: string) => {
@@ -33,9 +33,9 @@ export const NodeTopBar = () => {
     }
   }, [params]);
 
-  const handleStartStopNode = () => {
-    if (status !== STATUS.RUNNING) setOpenPassword(true);
-    else if (params && params.name) stopContainer(params.name);
+  const handleNodeStatus = () => {
+    if (status !== NodeStatus.RUNNING) setOpenPassword(true);
+    else if (params?.name) stopContainer(params.name);
   };
 
   return (
@@ -54,12 +54,12 @@ export const NodeTopBar = () => {
         </span>
         <button
           type="button"
-          onClick={handleStartStopNode}
+          onClick={handleNodeStatus}
           className={twJoin(
             'z-50 flex h-2/3 cursor-pointer items-center rounded-md  px-10 py-6 text-2xl font-semibold text-text-color',
-            status === STATUS.RUNNING ? 'bg-[#b11a28]' : 'bg-[#007842]',
+            status === NodeStatus.RUNNING ? 'bg-[#b11a28]' : 'bg-[#007842]',
           )}>
-          {status !== STATUS.RUNNING
+          {status !== NodeStatus.RUNNING
             ? t('start_node_label', { ns: 'general' })
             : t('stop_node_label', { ns: 'general' })}
         </button>

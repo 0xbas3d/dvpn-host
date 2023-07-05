@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container } from 'renderer/common/types';
 import { routeConst } from 'renderer/common/consts/route-const.common';
 import { twJoin } from 'tailwind-merge';
-import { STATUS } from 'renderer/common/enums';
+import { NodeStatus } from 'renderer/common/enums';
 import { StartNodeDialog } from './start-node-dialog.component';
 
 export type InstanceCardProps = {
@@ -21,7 +21,7 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
   };
 
   const stopContainer = () => {
-    if (instance.status !== STATUS.RUNNING) {
+    if (instance.status !== NodeStatus.RUNNING) {
       setOpenPassword(true);
     } else {
       window.electron.ipcRenderer.run([instance.name, 'stop']);
@@ -33,11 +33,11 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
       <div
         className={twJoin(
           'flex h-[87px] w-full flex-row items-center justify-center rounded-t-[16px] ',
-          instance.status === STATUS.RUNNING ? 'bg-[#295e3a]' : 'bg-[#b11a28]',
+          instance.status === NodeStatus.RUNNING ? 'bg-[#295e3a]' : 'bg-[#b11a28]',
         )}>
         <p className="pr-32 text-[22px]  font-medium">{instance.name}</p>
         <p className="text-[22px] font-medium ">
-          {instance.status === STATUS.RUNNING
+          {instance.status === NodeStatus.RUNNING
             ? t('active_label', { ns: 'general' })
             : t('inactive_label', { ns: 'general' })}
         </p>
@@ -58,7 +58,7 @@ export const InstanceCard = ({ instance }: InstanceCardProps) => {
           type="button"
           className="px-8"
           onClick={stopContainer}>
-          {instance.status === STATUS.RUNNING
+          {instance.status === NodeStatus.RUNNING
             ? t('stop_label', { ns: 'general' })
             : t('start_label', { ns: 'general' })}
         </button>

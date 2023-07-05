@@ -17,7 +17,7 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
     });
   };
 
-  const handleChangePassphrase = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePassphraseChange = (e: ChangeEvent<HTMLInputElement>) => {
     setKeyConfig((prev) => {
       return { ...prev, passphrase: e.target.value };
     });
@@ -81,7 +81,7 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
             <input
               type="password"
               value={keyConfig.passphrase}
-              onChange={handleChangePassphrase}
+              onChange={handlePassphraseChange}
               className="w-full bg-transparent text-lg text-text-color focus:outline-none"
             />
           </div>

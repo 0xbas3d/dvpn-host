@@ -23,7 +23,7 @@ export const Setup = ({ containerName, setContainerName, next, setLoading }: Set
     }
   };
 
-  const handleSetContainerName = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleContainerNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setContainerName(e.target.value);
   };
 
@@ -37,7 +37,7 @@ export const Setup = ({ containerName, setContainerName, next, setLoading }: Set
           <input
             type="text"
             value={containerName}
-            onChange={handleSetContainerName}
+            onChange={handleContainerNameChange}
             className="w-full bg-transparent text-lg text-text-color focus:outline-none"
           />
         </div>

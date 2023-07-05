@@ -1,1 +1,1 @@
-export * from './status.enum';
+export * from './node-status.enum';
