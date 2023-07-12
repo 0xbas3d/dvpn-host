@@ -37,7 +37,13 @@ module.exports = {
     depends: ['socat'],
   },
   linux: {
-    target: 'deb',
+    target: [
+      {
+        target: 'deb',
+        arch: ['x64', 'arm64'],
+      },
+      { target: 'rpm', arch: ['x64', 'arm64'] },
+    ],
     maintainer: 'Sentinel <abc@gmail.com>',
     category: 'Development',
   },
