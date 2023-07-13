@@ -41,12 +41,12 @@ export const Main = () => {
             className="rounded-[63px] bg-[#1F5EFF] px-[60px] py-6 text-[24px] text-white">
             {t('start_label', { ns: 'general' })}
           </button>
-          <button
+          {/* <button
             type="button"
             onClick={handleInstallDependencies}
             className="rounded-[63px] border border-[#1F5EFF] px-[60px] py-6 text-[24px] text-white">
             {t('install_label', { ns: 'general' })}
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

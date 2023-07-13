@@ -39,12 +39,14 @@ export const NodeTopBar = () => {
   };
 
   return (
-    <div className="flex px-[59px] py-[35px]">
+    <div className="flex items-center justify-between px-[59px] py-[35px]">
       <img
         src={logo}
         alt="logo"
-        className="mr-auto"
       />
+      <div className="z-50 flex h-2/3 items-center rounded-md  bg-[#0F131A] px-10 py-6 text-2xl font-semibold text-text-color">
+        Coming Soon
+      </div>
       <div className="flex space-x-14">
         <span className="text-right text-text-color">
           <span className="block pb-1 text-3xl font-bold">
