@@ -1,4 +1,5 @@
 {
+  "dvpn_label": "DVPN",
   "sentinel_label": "Sentinel",
   "sentinel_website": "Sentinel Website",
   "docs_link": "Docs.sentinel.co",
@@ -21,7 +22,7 @@
   "node_configuration_label": "Node Configuration",
   "auto_fill_label": "Auto Fill",
   "auto_fill_config_with_default_parameters": "Auto Fill will fill in the config with default parameters. You may change the config later in the edit config tab of the node view.",
-  "title": "DVPN Node Launcher",
+  "node_launcher": "Node Launcher",
   "instances_label": "Instances",
   "launch_and_manage_nodes_label": "Launch and Manage Nodes",
   "view_label": "View",

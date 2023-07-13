@@ -16,36 +16,37 @@ export const Main = () => {
   };
 
   return (
-    <div className="min-h-screen  w-full bg-[#090A13] bg-[url('./images/page-bg.png')] bg-cover bg-center  bg-no-repeat  p-0   bg-blend-difference">
-      <div className="fixed  bottom-10 left-[140px] h-full w-full   bg-[url('./images/hero.png')] ">
-        <div className="absolute top-20  w-full  pb-[300px] pt-16 ">
-          <div>
-            <img
-              className="text-4xl font-extrabold text-white"
-              alt={t('sentinel_label', { ns: 'general' })}
-              src={logo}
-              height={86}
-            />
+    <div className="flex min-h-screen w-full items-stretch bg-[#090A13] bg-[url('./images/home-bg.jpg')] bg-cover  bg-center bg-no-repeat py-[60px] pl-[54px] bg-blend-difference">
+      <div className="flex w-full flex-col justify-between">
+        <div>
+          <img
+            className="text-4xl font-extrabold text-white"
+            alt={t('sentinel_label', { ns: 'general' })}
+            src={logo}
+            height={86}
+          />
+        </div>
+        <div>
+          <div className="text-[100px] font-bold leading-none text-[#F1F2FF]">
+            {t('dvpn_label', { ns: 'general' })}
           </div>
-          <div className="absolute top-1/2">
-            <div className="text-center  text-[80px] font-normal leading-none text-[#F1F2FF]">
-              {t('title', { ns: 'general' })}
-            </div>
-            <div className="mt-[72px] flex flex-col items-center justify-center gap-5 ">
-              <button
-                type="button"
-                onClick={handleNavigateToInstance}
-                className=" h-fit w-1/4 rounded-[63px] bg-[#1F5EFF] py-5 text-[24px] text-white">
-                {t('start_label', { ns: 'general' })}
-              </button>
-              <button
-                type="button"
-                onClick={handleInstallDependencies}
-                className=" h-fit w-1/4 rounded-[63px] bg-[#1F5EFF] py-5 text-[24px] text-white">
-                {t('install_label', { ns: 'general' })}
-              </button>
-            </div>
+          <div className="text-[100px] font-normal leading-none text-[#F1F2FF]">
+            {t('node_launcher', { ns: 'general' })}
           </div>
+        </div>
+        <div className="flex items-center gap-5 ">
+          <button
+            type="button"
+            onClick={handleNavigateToInstance}
+            className="rounded-[63px] bg-[#1F5EFF] px-[60px] py-6 text-[24px] text-white">
+            {t('start_label', { ns: 'general' })}
+          </button>
+          <button
+            type="button"
+            onClick={handleInstallDependencies}
+            className="rounded-[63px] border border-[#1F5EFF] px-[60px] py-6 text-[24px] text-white">
+            {t('install_label', { ns: 'general' })}
+          </button>
         </div>
       </div>
     </div>
