@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { KeyConfigType, WalletInfoType } from 'renderer/common/types';
 import { routeConst } from 'renderer/common/consts/route-const.common';
+import { twJoin } from 'tailwind-merge';
 import { AddKey } from './add-key.component';
 import { Loading } from './loading.component';
 import { NodeConfig } from './node-config.component';
@@ -101,7 +102,11 @@ export const AddInstance = () => {
               {step > 1 && (
                 <button
                   type="button"
-                  className="cursor-pointer rounded-full border border-[#1F5EFF] px-7 py-4 text-2xl font-medium text-text-color hover:bg-[#1F5EFF]"
+                  disabled={step === 3 && keyConfig.passphrase.length < 8}
+                  className={twJoin(
+                    'rounded-full border border-[#1F5EFF] px-7 py-4 text-2xl font-medium text-text-color',
+                    step === 3 && keyConfig.passphrase.length >= 8 ? 'hover:bg-[#1F5EFF]' : '',
+                  )}
                   onClick={addInstance}>
                   {step === 2
                     ? t('next_label', { ns: 'setup' })

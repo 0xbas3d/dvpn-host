@@ -86,6 +86,7 @@ export const AddKey = ({ keyConfig, setKeyConfig }: AddKeyProps) => {
             />
           </div>
         </div>
+        <div className="text-white">* Passphrase should be atleast 8 characters</div>
       </div>
     </div>
   );
