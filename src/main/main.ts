@@ -39,8 +39,12 @@ ipcMain.handle('custom', async (_, data) => {
   const container = data[0];
   const command = data[1];
   if (command === 'containers') {
-    const { stdout } = await exec('ls -a $HOME | grep .sentinel_');
-    return stdout;
+    try {
+      const { stdout } = await exec('ls -a $HOME | grep .sentinel_');
+      return stdout;
+    } catch (err) {
+      return '';
+    }
   }
   const { stdout } = await exec(`docker ps --all --filter name="${container}" --quiet`);
   if (stdout === '') return 'Stopped';

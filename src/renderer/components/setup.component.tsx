@@ -1,5 +1,6 @@
 import { Dispatch, DispatchWithoutAction, SetStateAction, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { twJoin } from 'tailwind-merge';
 
 export type SetupProps = {
   containerName: string;
@@ -41,11 +42,16 @@ export const Setup = ({ containerName, setContainerName, next, setLoading }: Set
             className="w-full bg-transparent text-lg text-text-color focus:outline-none"
           />
         </div>
+        <div className="mt-6 text-white">* Container Name should not contain spaces</div>
       </div>
       <button
         type="button"
+        disabled={containerName.includes(' ')}
         onClick={setupContainer}
-        className="z-50 inline-block cursor-pointer rounded-full border border-[#1F5EFF] p-6 text-2xl font-medium text-text-color hover:bg-[#1F5EFF]">
+        className={twJoin(
+          'z-50 inline-block rounded-full border border-[#1F5EFF] p-6 text-2xl font-medium text-text-color',
+          !containerName.includes(' ') ? 'hover:bg-[#1F5EFF]' : '',
+        )}>
         {t('setup_install', { ns: 'setup' })}
       </button>
     </div>
