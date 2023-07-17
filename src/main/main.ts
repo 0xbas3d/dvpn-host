@@ -4,6 +4,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import fs from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -25,13 +26,38 @@ const INSTALL_SCRIPT_PATH = app.isPackaged
   ? path.join(process.resourcesPath, 'scripts/install.sh')
   : path.join(__dirname, '../../scripts/install.sh');
 
+const LOG_FILE_PATH = app.isPackaged
+  ? path.join(process.env.HOME!, '.DVPN-app.log')
+  : path.join(__dirname, '../../app.log');
+
+const writeLog = (message: string) => {
+  if (!fs.existsSync(LOG_FILE_PATH)) {
+    fs.writeFileSync(LOG_FILE_PATH, '');
+  }
+
+  const logMessage = `${new Date().toISOString()} - ${message}`;
+
+  fs.appendFile(LOG_FILE_PATH, logMessage, (err: any) => {
+    if (err) {
+      console.error('Error writing to log file:', err);
+    }
+  });
+};
+
+const logError = (err: any) => {
+  if (err.stdout) writeLog(`Error: ${err.stdout}`);
+  if (err.stderr) writeLog(`Error: ${err.stderr}`);
+};
+
 ipcMain.handle('install', async () => {
   try {
+    writeLog('Installing Dependencies');
     const output = await sudoExec(`bash ${INSTALL_SCRIPT_PATH}`, options);
+    writeLog(output);
     return output;
   } catch (err: any) {
-    if (err.stdout) return err.stdout;
-    if (err.stderr) return err.stderr;
+    logError(err);
+    return err.stdout;
   }
 });
 
@@ -41,25 +67,38 @@ ipcMain.handle('custom', async (_, data) => {
   if (command === 'containers') {
     try {
       const { stdout } = await exec('ls -a $HOME | grep .sentinel_');
+      writeLog(`List_Containers: ${stdout}`);
       return stdout;
-    } catch (err) {
+    } catch (err: any) {
+      logError(err);
       return '';
     }
   }
-  const { stdout } = await exec(`docker ps --all --filter name="${container}" --quiet`);
-  if (stdout === '') return 'Stopped';
-  const output = await exec(
-    `docker container inspect --format "{{ .State.Running }}" "${container}"`,
-  );
-  if (output.stdout === 'true\n') return 'Running';
-  return 'Stopped';
+  try {
+    const { stdout } = await exec(`docker ps --all --filter name="${container}" --quiet`);
+    if (stdout === '') return 'Stopped';
+    const output = await exec(
+      `docker container inspect --format "{{ .State.Running }}" "${container}"`,
+    );
+    if (output.stdout === 'true\n') return 'Running';
+    return 'Stopped';
+  } catch (err: any) {
+    logError(err);
+    return 'Stopped';
+  }
 });
 
 ipcMain.handle('default', async () => {
-  const { stdout } = await exec(
-    `CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_config ; CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_v2ray`,
-  );
-  return stdout;
+  try {
+    writeLog('Getting default configuration');
+    const { stdout } = await exec(
+      `CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_config ; CONTAINER_NAME=temp bash ${SCRIPT_PATH} init default_v2ray`,
+    );
+    return stdout;
+  } catch (err: any) {
+    logError(err);
+    return '';
+  }
 });
 
 ipcMain.handle('run', async (_, data) => {
@@ -67,13 +106,16 @@ ipcMain.handle('run', async (_, data) => {
     const container = data[0];
     const command = data[1];
     if (command === 'setup') {
+      writeLog(`Setting up container ${container}`);
       const output = await sudoExec(
         `HOME=${process.env.HOME} ; CONTAINER_NAME=${container} bash ${SCRIPT_PATH} setup`,
         options,
       );
+      writeLog(`Output of setup of container ${container} : ${output}`);
       return output;
     }
     if (command === 'init') {
+      writeLog(`Initializing configuration for container ${container}`);
       const config = JSON.parse(data[2]);
       const keys = Object.keys(config);
       let configString = '';
@@ -82,22 +124,30 @@ ipcMain.handle('run', async (_, data) => {
           configString += `export ${key}=${config[key]};`;
         }
       });
-      const { stdout } = await exec(
+      const { stdout, stderr } = await exec(
         `${configString}CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init config ; CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init ${config.node_type}`,
       );
+      writeLog(`Output of init of container ${container} : ${stdout} ; ${stderr}`);
       return stdout;
     }
     if (command === 'init_keys') {
+      writeLog(`Initializing keys for container ${container}`);
       const config = JSON.parse(data[2]);
       const { mnemonic, passphrase } = config;
       if (mnemonic.length > 0) {
-        const { stdout } = await exec(
+        const { stdout, stderr } = await exec(
           `printf "${mnemonic}\n${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init keys`,
+        );
+        writeLog(
+          `Output of init keys with mnemonic for container ${container} : ${stdout} ; ${stderr}`,
         );
         return stdout;
       }
       const { stdout, stderr } = await exec(
         `printf "${passphrase}\n${passphrase}\n" | CONTAINER_NAME=${container} bash ${SCRIPT_PATH} init new_key`,
+      );
+      writeLog(
+        `Output of init keys without mnemonic for container ${container} : ${stdout} ; ${stderr}`,
       );
       const newMnemonic = stderr.split('\n')[1];
       const address = stdout.split('\n')[1].split(' ')[1];
@@ -105,20 +155,31 @@ ipcMain.handle('run', async (_, data) => {
       return JSON.stringify({ mnemonic: newMnemonic, address, operator });
     }
     if (command === 'start') {
+      writeLog(`Starting container ${container}`);
       const passphrase = data[2];
       const { stdout, stderr } = await exec(
         `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command} ; echo ${passphrase} | socat -u EXEC:"docker attach ${container}",pty STDIN`,
       );
+      writeLog(`Output after starting container ${container} : ${stdout} ; ${stderr}`);
       if (stdout) return stdout;
       if (stderr) return stderr;
     } else if (command === 'stop') {
-      const { stdout } = await exec(` CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`);
+      writeLog(`Stopping container ${container}`);
+      const { stdout, stderr } = await exec(
+        ` CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`,
+      );
+      writeLog(`Output after stopping container ${container} : ${stdout} ; ${stderr}`);
       return stdout;
     } else {
-      const { stdout } = await exec(`CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`);
+      writeLog(`Executing command ${command} on container ${container}`);
+      const { stdout, stderr } = await exec(
+        `CONTAINER_NAME=${container} bash ${SCRIPT_PATH} ${command}`,
+      );
+      writeLog(`Output ${container} : ${stdout} ; ${stderr}`);
       return stdout;
     }
   } catch (err: any) {
+    logError(err);
     if (err.stdout) return err.stdout;
     if (err.stderr) return err.stderr;
   }
