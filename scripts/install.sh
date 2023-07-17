@@ -30,5 +30,7 @@ sudo apt-get install -y socat
 sudo systemctl enable docker
 sudo systemctl start docker
 
+sudo chmod 666 /var/run/docker.sock
+
 # Print a message to inform the user about the next steps
-echo "Please log out and log back in for the changes to take effect."
+echo "Please restart the system for changes to take effect"
